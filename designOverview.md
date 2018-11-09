@@ -5,7 +5,7 @@ Portable devices which can detect airbourne particulates are finding its way int
 
 ### Design Specifications  
 
-####Necessities 
+#### Necessities 
 
 1. Particulate Sensor: 
  - Must have the Alhpa Sense OPC-N3 <br/>
