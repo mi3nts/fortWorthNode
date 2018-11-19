@@ -30,5 +30,8 @@ Portable devices which can detect airbourne particulates are finding its way int
 6. Onbaord  Date Storage: 
 - The device contains an onbaord SD card 
 
+7. Weight:
+- 1.5 Kg
+
 
 
