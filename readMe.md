@@ -17,6 +17,12 @@ Portable devices which can detect airbourne particulates are finding its way int
 - Humidity 
 - Pressure 
 - GPS 
+- Ozone Sensor
+- Skyward Looking Camera 
+- Gas Sensor
+
+ 
+ 
 
 4. Power :
 - Uses between 3W - 12W
@@ -25,7 +31,8 @@ Portable devices which can detect airbourne particulates are finding its way int
 
 5. Date Output: 
 - On board OLED  
-- The device will send live updates to a google drive doc. 
+- Google Sheets 
+- Dropbox  
 
 6. Onbaord  Date Storage: 
 - The device contains an onbaord SD card 
