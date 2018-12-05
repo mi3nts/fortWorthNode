@@ -20,12 +20,12 @@ void setup() {
    initializeHTU21DMints();
    initializeBMP280Mints();
    inputString.reserve(200);
+   SerialUSB.begin(9600);
 }
 
 
 // the loop routine runs over and over again forever:
 void loop() {
-
   commandReadMints();
 
   // if (stringComplete) {
