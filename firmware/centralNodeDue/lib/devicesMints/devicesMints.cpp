@@ -25,18 +25,7 @@ void readHTU21DMints(){
   sensorPrintMints("HTU21D",readings,2);
 
 }
-  // SerialUSB.print("-HTU21D;");SerialUSB.print(";");SerialUSB.print(temperature);SerialUSB.print(":");SerialUSB.print(humidity);SerialUSB.print("-");
 
-  //   if(serialOut){
-  //       Serial.print("-HTU21D;");Serial.print(";");Serial.print(temperature);Serial.print(":");Serial.print(humidity);Serial.print("-");
-  //   }
-
-  // sensorPrintMints();
-
-
-
-
-//
 // // BMP280  ---------------------------------------
 
 bool initializeBMP280Mints(){
@@ -61,6 +50,74 @@ void readBMP280Mints(){
   String readings[2] = { String(temperature,2) , String(pressure,2) };
   sensorPrintMints("BMP280",readings,2);
 }
+
+
+
+
+// // OPCN3  ---------------------------------------
+
+bool initializeOPCN3Mints(){
+
+  return opc.initialize();
+
+}
+
+void readOPCN3Mints(){
+
+  struct histogramData  allData= opc.readHistogramData();
+
+  String readings[43] =  { \
+                          String(allData.valid), \
+                          String(allData.binCount0), \
+                          String(allData.binCount1), \
+                          String(allData.binCount2), \
+                          String(allData.binCount3), \
+                          String(allData.binCount4), \
+                          String(allData.binCount5), \
+                          String(allData.binCount6), \
+                          String(allData.binCount7), \
+                          String(allData.binCount8), \
+                          String(allData.binCount9), \
+                          String(allData.binCount10), \
+                          String(allData.binCount11), \
+                          String(allData.binCount12), \
+                          String(allData.binCount13), \
+                          String(allData.binCount14), \
+                          String(allData.binCount15), \
+                          String(allData.binCount16), \
+                          String(allData.binCount17), \
+                          String(allData.binCount18), \
+                          String(allData.binCount19), \
+                          String(allData.binCount20), \
+                          String(allData.binCount21), \
+                          String(allData.binCount22), \
+                          String(allData.binCount23), \
+                          String(allData.bin1TimeToCross), \
+                          String(allData.bin3TimeToCross), \
+                          String(allData.bin5TimeToCross), \
+                          String(allData.bin7TimeToCross), \
+                          String(allData.samplingPeriod), \
+                          String(allData.sampleFlowRate), \
+                          String(allData.temperature), \
+                          String(allData.humidity), \
+                          String(allData.pm1,2), \
+                          String(allData.pm2_5,2), \
+                          String(allData.pm10,2), \
+                          String(allData.rejectCountGlitch), \
+                          String(allData.rejectCountLongTOF), \
+                          String(allData.rejectCountRatio), \
+                          String(allData.rejectCountOutOfRange), \
+                          String(allData.fanRevCount), \
+                          String(allData.laserStatus), \
+                          String(allData.checkSum) \
+                        };
+
+  sensorPrintMints("OPCN3",readings,43);
+
+
+
+}
+
 
 
 // // INA219  ---------------------------------------

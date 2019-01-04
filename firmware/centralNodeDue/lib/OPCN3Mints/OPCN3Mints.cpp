@@ -572,8 +572,8 @@ struct histogramData OPCN3Mints::readHistogramData() {
  Serial.print(dataOutput.binCount22);Serial.print(" ");
  Serial.print(dataOutput.binCount23);Serial.println(" ");
 
-Serial.println("-------------------------------------------------");
-Serial.println("Time To Cross");
+ Serial.println("-------------------------------------------------");
+ Serial.println("Time To Cross");
  Serial.print(dataOutput.bin1TimeToCross);Serial.print(" ");
  Serial.print(dataOutput.bin3TimeToCross);Serial.print(" ");
  Serial.print(dataOutput.bin5TimeToCross);Serial.print(" ");

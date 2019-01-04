@@ -1,13 +1,13 @@
 #include <Arduino.h>
 #include <Adafruit_HTU21DF.h>
 #include <Adafruit_BMP280.h>
+#include "OPCN3Mints.h"
 #include <Wire.h>
 
 
 #include <devicesMints.h>
 #include <jobsMints.h>
 
-// #include "OPCN3Mints.h"
 
 // #include <Adafruit_INA219.h>
 
@@ -19,13 +19,20 @@ Adafruit_BMP280 bme;
 
 // bool serialOut = true;
 
-// #define CS 10
-// OPCN3Mints OPCN3(CS);
+#define CS 10
+OPCN3Mints opc = OPCN3Mints(CS);
+
+
 // String inputString = "";         // a String to hold incoming data
 // bool stringComplete = false;  // whether the string is complete
-// bool  OPCN3Online;
+
 bool HTU21DOnline;
 bool BMP280Online;
+bool  OPCN3Online;
+
+
+
+
 
 void setup() {
 
@@ -36,9 +43,11 @@ void setup() {
   HTU21DOnline = initializeHTU21DMints();
   delay(1000);
   BMP280Online = initializeBMP280Mints();
-
+  delay(1000);
+  OPCN3Online =  initializeOPCN3Mints();
+  delay(1000);
 }
- // OPCN3Online = OPCN3.initialize();
+;
 
 // the loop routine runs over and over again forever:
 void loop() {
@@ -57,11 +66,12 @@ delay(2000);
     }
 
 delay(2000);
-   // if(BMP280Online)
-   //    {
-   //       readBMP280Mints();
-   //    }
 
+   if(OPCN3Online)
+      {
+         readOPCN3Mints();
+      }
+delay(2000);
 
 
 
