@@ -6,12 +6,13 @@
 
 
 void initializeSerialMints();
-
-extern bool stringComplete;
-extern String inputString;
-void commandReadMints();
-
-void serialEvent();
+void initializeSerialUSBMints();
+void sensorPrintMints(String sensor,String readings[],uint8_t numOfvals);
+// extern bool stringComplete;
+// extern String inputString;
+// void commandReadMints();
+//
+// void serialEvent();
 
 
 
