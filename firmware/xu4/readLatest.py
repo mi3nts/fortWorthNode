@@ -5,35 +5,62 @@ import datetime
 import os
 import csv
 import deepdish as dd
+import time
 
 dataFolder = "/media/teamlary/Team_Lary_1/gitGubRepos/data/mintsData/"
 
 def main():
-
-    ser = serial.Serial(
-    port='/dev/ttyACM0',\
-    baudrate=9600,\
-    parity  =serial.PARITY_NONE,\
-    stopbits=serial.STOPBITS_ONE,\
-    bytesize=serial.EIGHTBITS,\
-    timeout=0)
-
-    print("connected to: " + ser.portstr)
-
-    #this will store the line
-    line = []
-
     while True:
-        for c in ser.read():
-            line.append(chr(c))
-            if chr(c) == '~':
-                dataString     = (''.join(line))
-                dataStringPost = dataString.replace('~', '')
-                dataSplit(dataStringPost,datetime.datetime.now())
-                line = []
-                break
 
-    ser.close()
+        readHDF5LatestAll("HTU21D")
+        time.sleep(1)
+        readHDF5LatestAll("BMP280")
+        time.sleep(1)
+        readHDF5LatestAll("INA219")
+        time.sleep(1)
+        readHDF5LatestAll("OPCN3")
+        readHDF5LatestData("OPCN3","pm1")
+        time.sleep(1)
+
+
+
+
+def readHDF5LatestAll(sensorName):
+    d = dd.io.load(dataFolder+sensorName+".h5")
+    print(sensorName)
+    print(d)
+    return d
+
+def readHDF5LatestData(sensorName,keyIn):
+    d = dd.io.load(dataFolder+sensorName+".h5")
+    print(sensorName)
+    print(d[keyIn])
+    return str(d[keyIn])
+
+    # ser = serial.Serial(
+    # port='/dev/ttyACM0',\
+    # baudrate=9600,\
+    # parity  =serial.PARITY_NONE,\
+    # stopbits=serial.STOPBITS_ONE,\
+    # bytesize=serial.EIGHTBITS,\
+    # timeout=0)
+    #
+    # print("connected to: " + ser.portstr)
+    #
+    # #this will store the line
+    # line = []
+    #
+    # while True:
+    #     for c in ser.read():
+    #         line.append(chr(c))
+    #         if chr(c) == '~':
+    #             dataString     = (''.join(line))
+    #             dataStringPost = dataString.replace('~', '')
+    #             dataSplit(dataStringPost,datetime.datetime.now())
+    #             line = []
+    #             break
+    #
+    # ser.close()
         # if chr(c) == '-':
         #     print(''.join(line))
 
@@ -75,8 +102,8 @@ def HTU21DWrite(sensorData,dateTime):
     if(len(dataOut) ==(dataLength +1)):
         sensorDictionary = {
                 "dateTime"           : str(dateTime),
-        	"temperature" :dataOut[0],
-            	"humidity"     :dataOut[1],
+        		"temperature" :dataOut[0],
+            	"humdity"     :dataOut[1],
         	     }
 
 
@@ -84,7 +111,7 @@ def HTU21DWrite(sensorData,dateTime):
     writePath = getWritePath(sensorName,dateTime)
     exists = directoryCheck(writePath)
     writeCSV2(writePath,sensorDictionary,exists)
-    writeHDF5Latest(writePath,sensorDictionary,sensorName)
+    writeHDF5Latest(sensorDictionary,sensorName)
     print("-----------------------------------")
     print(sensorName)
     print(sensorDictionary)
@@ -95,7 +122,7 @@ def BMP280Write(sensorData,dateTime):
     dataLength = 2
     if(len(dataOut) == (dataLength +1)):
         sensorDictionary = {
-                "dateTime"     : str(dateTime),
+                "dateTime"           : str(dateTime),
         		"temperature"  :dataOut[0],
             	"pressure"     :dataOut[1],
         	     }
@@ -104,7 +131,7 @@ def BMP280Write(sensorData,dateTime):
     writePath = getWritePath(sensorName,dateTime)
     exists = directoryCheck(writePath)
     writeCSV2(writePath,sensorDictionary,exists)
-    writeHDF5Latest(writePath,sensorDictionary,sensorName)
+    writeHDF5Latest(sensorDictionary,sensorName)
     print("-----------------------------------")
     print(sensorName)
     print(sensorDictionary)
@@ -117,7 +144,7 @@ def INA219Write(sensorData,dateTime):
     if(len(dataOut) == (dataLength +1)):
         sensorDictionary = {
                 "dateTime"      :str(dateTime),
-        	"shuntVoltage"  :dataOut[0],
+        		"shuntVoltage"  :dataOut[0],
             	"busVoltage"    :dataOut[1],
                 "currentMA"     :dataOut[2],
                 "powerMW"       :dataOut[3],
@@ -128,7 +155,7 @@ def INA219Write(sensorData,dateTime):
     writePath = getWritePath(sensorName,dateTime)
     exists = directoryCheck(writePath)
     writeCSV2(writePath,sensorDictionary,exists)
-    writeHDF5Latest(writePath,sensorDictionary,sensorName)
+    writeHDF5Latest(sensorDictionary,sensorName)
     print("-----------------------------------")
     print(sensorName)
     print(sensorDictionary)
@@ -190,7 +217,7 @@ def OPCN3Write(sensorData,dateTime):
     writePath = getWritePath(sensorName,dateTime)
     exists = directoryCheck(writePath)
     writeCSV2(writePath,sensorDictionary,exists)
-    writeHDF5Latest(writePath,sensorDictionary,sensorName)
+    writeHDF5Latest(sensorDictionary,sensorName)
 
     print("-----------------------------------")
     print(sensorName)
@@ -206,12 +233,8 @@ def writeCSV2(writePath,sensorDictionary,exists):
         writer.writerow(sensorDictionary)
 
 
-def writeHDF5Latest(writePath,sensorDictionary,sensorName):
-    try:
-        dd.io.save(dataFolder+sensorName+".h5", sensorDictionary)
-    except:
-        print("Data Conflict!")
-
+def writeHDF5Latest(sensorDictionary,sensorName):
+    dd.io.save(dataFolder+sensorName+".h5", sensorDictionary)
 
 
     # with open(writePath, 'a') as csv_file:
