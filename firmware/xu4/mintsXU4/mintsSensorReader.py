@@ -1,68 +1,25 @@
-# import serial
-# ser = serial.Serial('/dev/ttyACM3')
 import serial
 import datetime
 import os
 import csv
 import deepdish as dd
-import time
+from mintsXU4 import mintsLatest as mL
+from mintsXU4 import mintsDefinitions as mD
+from getmac import get_mac_address
 
-dataFolder = "/media/teamlary/Team_Lary_1/gitGubRepos/data/mintsData/"
+macAddress = mD.macAddress
+dataFolder = mD.dataFolder
 
-def main():
-    while True:
-
-        readHDF5LatestAll("HTU21D")
-        time.sleep(1)
-        readHDF5LatestAll("BMP280")
-        time.sleep(1)
-        readHDF5LatestAll("INA219")
-        time.sleep(1)
-        readHDF5LatestAll("OPCN3")
-        readHDF5LatestData("OPCN3","pm1")
-        time.sleep(1)
-
-
-
-
-def readHDF5LatestAll(sensorName):
-    d = dd.io.load(dataFolder+sensorName+".h5")
+def sensorFinisher(dateTime,sensorName,sensorDictionary):
+    #Getting Write Path
+    writePath = getWritePath(sensorName,dateTime)
+    exists = directoryCheck(writePath)
+    writeCSV2(writePath,sensorDictionary,exists)
+    mL.writeHDF5Latest(writePath,sensorDictionary,sensorName)
+    print("-----------------------------------")
     print(sensorName)
-    print(d)
-    return d
+    print(sensorDictionary)
 
-def readHDF5LatestData(sensorName,keyIn):
-    d = dd.io.load(dataFolder+sensorName+".h5")
-    print(sensorName)
-    print(d[keyIn])
-    return str(d[keyIn])
-
-    # ser = serial.Serial(
-    # port='/dev/ttyACM0',\
-    # baudrate=9600,\
-    # parity  =serial.PARITY_NONE,\
-    # stopbits=serial.STOPBITS_ONE,\
-    # bytesize=serial.EIGHTBITS,\
-    # timeout=0)
-    #
-    # print("connected to: " + ser.portstr)
-    #
-    # #this will store the line
-    # line = []
-    #
-    # while True:
-    #     for c in ser.read():
-    #         line.append(chr(c))
-    #         if chr(c) == '~':
-    #             dataString     = (''.join(line))
-    #             dataStringPost = dataString.replace('~', '')
-    #             dataSplit(dataStringPost,datetime.datetime.now())
-    #             line = []
-    #             break
-    #
-    # ser.close()
-        # if chr(c) == '-':
-        #     print(''.join(line))
 
 def dataSplit(dataString,dateTime):
     dataOut   = dataString.split('!')
@@ -78,11 +35,6 @@ def sensorSplit(dataQuota,dateTime):
         sensorID   = dataOut[0]
         sensorData = dataOut[1]
         sensorSend(sensorID,sensorData,dateTime)
-        # print("Sensor ID  : "+sensorID)
-        # print("Sensor Data: "+sensorData)
-        # print("Date Time : " +str(dateTime))
-
-
 
 def sensorSend(sensorID,sensorData,dateTime):
     if(sensorID=="HTU21D"):
@@ -93,6 +45,10 @@ def sensorSend(sensorID,sensorData,dateTime):
         INA219Write(sensorData,dateTime)
     if(sensorID=="OPCN3"):
         OPCN3Write(sensorData,dateTime)
+    if(sensorID=="LIBRAD"):
+        LIBRADWrite(sensorData,dateTime)
+    if(sensorID=="PPD42NS"):
+        PPD42NSWrite(sensorData,dateTime)
 
 
 def HTU21DWrite(sensorData,dateTime):
@@ -102,19 +58,13 @@ def HTU21DWrite(sensorData,dateTime):
     if(len(dataOut) ==(dataLength +1)):
         sensorDictionary = {
                 "dateTime"           : str(dateTime),
-        		"temperature" :dataOut[0],
-            	"humdity"     :dataOut[1],
+        	    "temperature" :dataOut[0],
+            	"humidity"     :dataOut[1],
         	     }
 
 
     #Getting Write Path
-    writePath = getWritePath(sensorName,dateTime)
-    exists = directoryCheck(writePath)
-    writeCSV2(writePath,sensorDictionary,exists)
-    writeHDF5Latest(sensorDictionary,sensorName)
-    print("-----------------------------------")
-    print(sensorName)
-    print(sensorDictionary)
+    sensorFinisher(dateTime,sensorName,sensorDictionary)
 
 def BMP280Write(sensorData,dateTime):
     dataOut    = sensorData.split(':')
@@ -122,19 +72,13 @@ def BMP280Write(sensorData,dateTime):
     dataLength = 2
     if(len(dataOut) == (dataLength +1)):
         sensorDictionary = {
-                "dateTime"           : str(dateTime),
+                "dateTime"     : str(dateTime),
         		"temperature"  :dataOut[0],
             	"pressure"     :dataOut[1],
         	     }
 
     #Getting Write Path
-    writePath = getWritePath(sensorName,dateTime)
-    exists = directoryCheck(writePath)
-    writeCSV2(writePath,sensorDictionary,exists)
-    writeHDF5Latest(sensorDictionary,sensorName)
-    print("-----------------------------------")
-    print(sensorName)
-    print(sensorDictionary)
+    sensorFinisher(dateTime,sensorName,sensorDictionary)
 
 def INA219Write(sensorData,dateTime):
     dataOut    = sensorData.split(':')
@@ -144,7 +88,7 @@ def INA219Write(sensorData,dateTime):
     if(len(dataOut) == (dataLength +1)):
         sensorDictionary = {
                 "dateTime"      :str(dateTime),
-        		"shuntVoltage"  :dataOut[0],
+        	"shuntVoltage"  :dataOut[0],
             	"busVoltage"    :dataOut[1],
                 "currentMA"     :dataOut[2],
                 "powerMW"       :dataOut[3],
@@ -152,14 +96,7 @@ def INA219Write(sensorData,dateTime):
         	     }
 
     #Getting Write Path
-    writePath = getWritePath(sensorName,dateTime)
-    exists = directoryCheck(writePath)
-    writeCSV2(writePath,sensorDictionary,exists)
-    writeHDF5Latest(sensorDictionary,sensorName)
-    print("-----------------------------------")
-    print(sensorName)
-    print(sensorDictionary)
-
+    sensorFinisher(dateTime,sensorName,sensorDictionary)
 
 def OPCN3Write(sensorData,dateTime):
     dataOut    = sensorData.split(':')
@@ -214,14 +151,38 @@ def OPCN3Write(sensorData,dateTime):
 
              }
     #Getting Write Path
-    writePath = getWritePath(sensorName,dateTime)
-    exists = directoryCheck(writePath)
-    writeCSV2(writePath,sensorDictionary,exists)
-    writeHDF5Latest(sensorDictionary,sensorName)
+    sensorFinisher(dateTime,sensorName,sensorDictionary)
 
-    print("-----------------------------------")
-    print(sensorName)
-    print(sensorDictionary)
+def LIBRADWrite(sensorData,dateTime):
+    dataOut    = sensorData.split(':')
+    sensorName = "LIBRAD"
+    dataLength = 3
+    if(len(dataOut) ==(dataLength +1)):
+        sensorDictionary = {
+                "dateTime"           :str(dateTime),
+        	"countPerMinute"     :dataOut[0],
+            	"radiationValue"     :dataOut[1],
+                "timeSpent"          :dataOut[2],
+        	     }
+
+        sensorFinisher(dateTime,sensorName,sensorDictionary)
+
+
+def PPD42NSWrite(sensorData,dateTime):
+    dataOut    = sensorData.split(':')
+    sensorName = "PPD42NS"
+    dataLength = 4
+    if(len(dataOut) ==(dataLength +1)):
+        sensorDictionary = {
+                "dateTime"           :str(dateTime),
+        	"lowPulseOccupancy"  :dataOut[0],
+            	"concentration"      :dataOut[1],
+                "ratio"              :dataOut[2],
+                "timeSpent"          :dataOut[3]
+        	     }
+
+        sensorFinisher(dateTime,sensorName,sensorDictionary)
+
 
 def writeCSV2(writePath,sensorDictionary,exists):
     keys =  list(sensorDictionary.keys())
@@ -233,25 +194,14 @@ def writeCSV2(writePath,sensorDictionary,exists):
         writer.writerow(sensorDictionary)
 
 
-def writeHDF5Latest(sensorDictionary,sensorName):
-    dd.io.save(dataFolder+sensorName+".h5", sensorDictionary)
-
-
-    # with open(writePath, 'a') as csv_file:
-    #     writer = csv.DictWriter(csv_file, fieldnames=keys)
-    #     # print(exists)
-    #     if(not(exists)):
-    #         writer.writeheader()
-    #     writer.writerow(sensorDictionary)
-
-
-
-
-
-
+# def writeHDF5Latest(writePath,sensorDictionary,sensorName):
+#     try:
+#         dd.io.save(dataFolder+sensorName+".h5", sensorDictionary)
+#     except:
+#         print("Data Conflict!")
 
 def getWritePath(labelIn,dateTime):
-    writePath = dataFolder +str(dateTime.year).zfill(4)  + "/" + str(dateTime.month).zfill(2)  +"/mintsO"+ labelIn + str(dateTime.year).zfill(4)  + str(dateTime.month).zfill(2)  + str(dateTime.day).zfill(2)  + ".csv"
+    writePath = dataFolder+"/"+macAddress+str(dateTime.year).zfill(4)  + "/" + str(dateTime.month).zfill(2)+ "/"+str(dateTime.day).zfill(2)+"/"+ "mintsO"+ macAddress+ str(dateTime.year).zfill(4)+str(dateTime.month).zfill(2)+str(dateTime.day).zfill(2)+labelIn +".csv"
     return writePath;
 
 def getListDictionaryFromPath(dirPath):
@@ -330,6 +280,3 @@ def gainDirectoryInfo(dailyDownloadLocation):
         directoryFiles.extend(filenames)
 
     return directoryPaths,directoryNames,directoryFiles;
-
-if __name__ == "__main__":
-   main()
