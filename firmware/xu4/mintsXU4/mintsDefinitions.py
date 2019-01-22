@@ -1,8 +1,17 @@
 
 from getmac import get_mac_address
+import serial.tools.list_ports
+
+def findPort(find):
+    ports = list(serial.tools.list_ports.comports())
+    for p in ports:
+        currentPort = str(p)
+        if(currentPort.endswith(find)):
+            return(currentPort.split(" ")[0])
+
 
 dataFolder          = "/media/teamlary/Team_Lary_1/gitGubRepos/data/mintsData/"
-duePort             = "/dev/ttyACM1"
-nanoPort            = "/dev/ttyUSB1"
-show2Port           = "/dev/ttyUSB0"
+duePort             = findPort("Arduino Due")
+nanoPort            = findPort("FT232R USB UART")
+show2Port           = findPort("CP2104 USB to UART Bridge Controller")
 macAddress          = get_mac_address(interface="docker0").replace(":","")

@@ -10,6 +10,15 @@ from getmac import get_mac_address
 macAddress = mD.macAddress
 dataFolder = mD.dataFolder
 
+
+def findPort(find):
+    ports = list(serial.tools.list_ports.comports())
+    for p in ports:
+        currentPort = str(p)
+        if(currentPort.endswith(find)):
+            print("-------------------")
+            return(currentPort.split(" ")[0])
+
 def sensorFinisher(dateTime,sensorName,sensorDictionary):
     #Getting Write Path
     writePath = getWritePath(sensorName,dateTime)
