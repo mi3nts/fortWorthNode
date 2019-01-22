@@ -12,9 +12,9 @@ import time
 
 from mintsXU4 import mintsDefinitions as mD
 
-dataFolder = mD.dataFolder
+# dataFolder = mD.dataFolder
 
-
+dataFolder = "test"
 def writeHDF5Latest(writePath,sensorDictionary,sensorName):
     try:
         dd.io.save(dataFolder+sensorName+".h5", sensorDictionary)
