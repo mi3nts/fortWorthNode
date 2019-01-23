@@ -203,11 +203,7 @@ def writeCSV2(writePath,sensorDictionary,exists):
 #         print("Data Conflict!")
 
 def getWritePath(labelIn,dateTime):
-<<<<<<< HEAD
     writePath = dataFolder+"/"+macAddress+"/"+str(dateTime.year).zfill(4)  + "/" + str(dateTime.month).zfill(2)+ "/"+str(dateTime.day).zfill(2)+"/"+ "mintsO"+ macAddress+ str(dateTime.year).zfill(4)+str(dateTime.month).zfill(2)+str(dateTime.day).zfill(2)+labelIn +".csv"
-=======
-    writePath = dataFolder+"/"+macAddress+str(dateTime.year).zfill(4)  + "/" + str(dateTime.month).zfill(2)+ "/"+str(dateTime.day).zfill(2)+"/"+ "mintsO"+ macAddress+ str(dateTime.year).zfill(4)+str(dateTime.month).zfill(2)+str(dateTime.day).zfill(2)+labelIn +".csv"
->>>>>>> 26ad72250c998ae53a671b1ff99fbaa5306bbb03
     return writePath;
 
 def getListDictionaryFromPath(dirPath):
