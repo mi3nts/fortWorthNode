@@ -98,6 +98,8 @@ def printEmpty():
 
 def printIntro():
     ctx.fg_color(Screen.RED).write("").home()
+    ctx.fg_color(Screen.RED).write("").home()
+    ctx.fg_color(Screen.RED).write("").home()
     ctx.fg_color(Screen.WHITE).write("----------MINTS----------").linebreak()
     ctx.fg_color(Screen.GREEN).write("                         ").linebreak()
     ctx.fg_color(Screen.GREEN).write("-------------------------").linebreak()
