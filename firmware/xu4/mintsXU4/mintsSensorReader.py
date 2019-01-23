@@ -11,13 +11,6 @@ macAddress = mD.macAddress
 dataFolder = mD.dataFolder
 
 
-def findPort(find):
-    ports = list(serial.tools.list_ports.comports())
-    for p in ports:
-        currentPort = str(p)
-        if(currentPort.endswith(find)):
-            print("-------------------")
-            return(currentPort.split(" ")[0])
 
 def sensorFinisher(dateTime,sensorName,sensorDictionary):
     #Getting Write Path
@@ -210,7 +203,11 @@ def writeCSV2(writePath,sensorDictionary,exists):
 #         print("Data Conflict!")
 
 def getWritePath(labelIn,dateTime):
+<<<<<<< HEAD
     writePath = dataFolder+"/"+macAddress+"/"+str(dateTime.year).zfill(4)  + "/" + str(dateTime.month).zfill(2)+ "/"+str(dateTime.day).zfill(2)+"/"+ "mintsO"+ macAddress+ str(dateTime.year).zfill(4)+str(dateTime.month).zfill(2)+str(dateTime.day).zfill(2)+labelIn +".csv"
+=======
+    writePath = dataFolder+"/"+macAddress+str(dateTime.year).zfill(4)  + "/" + str(dateTime.month).zfill(2)+ "/"+str(dateTime.day).zfill(2)+"/"+ "mintsO"+ macAddress+ str(dateTime.year).zfill(4)+str(dateTime.month).zfill(2)+str(dateTime.day).zfill(2)+labelIn +".csv"
+>>>>>>> 26ad72250c998ae53a671b1ff99fbaa5306bbb03
     return writePath;
 
 def getListDictionaryFromPath(dirPath):
