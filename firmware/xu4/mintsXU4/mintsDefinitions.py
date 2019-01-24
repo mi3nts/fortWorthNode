@@ -14,5 +14,8 @@ dataFolder          = "/media/teamlary/Team_Lary_1/gitGubRepos/data/mintsData/"
 duePort             = findPort("Arduino Due")
 nanoPort            = findPort("FT232R USB UART")
 show2Port           = findPort("CP2104 USB to UART Bridge Controller")
-macAddress          = get_mac_address(interface="docker0").replace(":","")
 # macAddress          = get_mac_address(interface="docker0").replace(":","")
+# macAddress          = get_mac_address(interface="docker0").replace(":","")
+gpsPort           = findPort("GPS/GNSS Receiver")
+
+macAddress          = get_mac_address(interface="enp1s0").replace(":","")
