@@ -10,9 +10,9 @@ def findPort(find):
             return(currentPort.split(" ")[0])
 
 
-dataFolder          = "/media/teamlary/Team_Lary_1/gitGubRepos/data/mintsData/"
+dataFolder          = "/media/usb/data/mintsData/"
 duePort             = findPort("Arduino Due")
 nanoPort            = findPort("FT232R USB UART")
 show2Port           = findPort("CP2104 USB to UART Bridge Controller")
-macAddress          = get_mac_address(interface="docker0").replace(":","")
 # macAddress          = get_mac_address(interface="docker0").replace(":","")
+macAddress          = get_mac_address(interface="eth0").replace(":","")
