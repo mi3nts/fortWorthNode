@@ -6,6 +6,9 @@ import deepdish as dd
 from mintsXU4 import mintsLatest as mL
 from mintsXU4 import mintsDefinitions as mD
 from getmac import get_mac_address
+import time
+import serial
+import pynmea2
 
 macAddress = mD.macAddress
 dataFolder = mD.dataFolder
@@ -59,9 +62,9 @@ def HTU21DWrite(sensorData,dateTime):
     dataLength = 2
     if(len(dataOut) ==(dataLength +1)):
         sensorDictionary = {
-                "dateTime"           : str(dateTime),
+                "dateTime"    : str(dateTime),
         	    "temperature" :dataOut[0],
-            	"humidity"     :dataOut[1],
+            	"humidity"    :dataOut[1],
         	     }
 
 
@@ -90,7 +93,7 @@ def INA219Write(sensorData,dateTime):
     if(len(dataOut) == (dataLength +1)):
         sensorDictionary = {
                 "dateTime"      :str(dateTime),
-        	"shuntVoltage"  :dataOut[0],
+        	    "shuntVoltage"  :dataOut[0],
             	"busVoltage"    :dataOut[1],
                 "currentMA"     :dataOut[2],
                 "powerMW"       :dataOut[3],
@@ -184,6 +187,63 @@ def PPD42NSWrite(sensorData,dateTime):
         	     }
 
         sensorFinisher(dateTime,sensorName,sensorDictionary)
+
+
+def getDeltaTime(beginTime,deltaWanted):
+    return (time.time() - beginTime)> deltaWanted
+
+def GPSGPGGAWrite(dataString,dateTime):
+
+    dataStringPost = dataString.replace('\n', '')
+    sensorData = pynmea2.parse(dataStringPost)
+    if(sensorData.gps_qual>0):
+        sensorName = "GPSGPGGA"
+        sensorDictionary = {
+                "dateTime"          :str(dateTime),
+                "timestamp"         :sensorData.timestamp,
+                "latitude"          :sensorData.lat,
+                "latitudeDirection" :sensorData.lat_dir,
+                "longitude"         :sensorData.lon,
+                "longitudeDirection":sensorData.lon_dir,
+                "gpsQuality"        :sensorData.gps_qual,
+                "numberOfSatellites":sensorData.num_sats,
+                "HorizontalDilution":sensorData.horizontal_dil,
+                "altitude"          :sensorData.altitude,
+                "altitudeUnits"     :sensorData.altitude_units,
+                "undulation"        :sensorData.geo_sep,
+                "undulationUnits"   :sensorData.geo_sep_units,
+                "age"               :sensorData.age_gps_data,
+                "stationID"         :sensorData.ref_station_id
+        	     }
+
+        #Getting Write Path
+        sensorFinisher(dateTime,sensorName,sensorDictionary)
+
+def GPSGPRMCWrite(dataString,dateTime):
+
+    dataStringPost = dataString.replace('\n', '')
+    sensorData = pynmea2.parse(dataStringPost)
+    if(sensorData.status=='A'):
+        sensorName = "GPSGPRMC"
+        sensorDictionary = {
+                "dateTime"             :str(dateTime),
+                "timestamp"            :sensorData.timestamp,
+                "status"               :sensorData.status,
+                "latitude"             :sensorData.lat,
+                "latitudeDirection"    :sensorData.lat_dir,
+                "longitude"            :sensorData.lon,
+                "longitudeDirection"   :sensorData.lon_dir,
+                "speedOverGround"      :sensorData.spd_over_grnd,
+                "trueCourse"           :sensorData.true_course,
+                "dateStamp"            :sensorData.datestamp,
+                "magVariation"         :sensorData.mag_variation,
+                "magVariationDirection":sensorData.mag_var_dir,
+                     }
+
+        #Getting Write Path
+        sensorFinisher(dateTime,sensorName,sensorDictionary)
+
+
 
 
 def writeCSV2(writePath,sensorDictionary,exists):
