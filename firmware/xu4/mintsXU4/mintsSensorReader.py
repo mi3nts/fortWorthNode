@@ -64,9 +64,9 @@ def HTU21DWrite(sensorData,dateTime):
     dataLength = 2
     if(len(dataOut) ==(dataLength +1)):
         sensorDictionary = OrderedDict([
-                ("dateTime"    : str(dateTime)),
-        	    ("temperature" :dataOut[0]),
-            	("humidity"    :dataOut[1])
+                ("dateTime"    , str(dateTime)),
+        	    ("temperature" ,dataOut[0]),
+            	("humidity"    ,dataOut[1])
         	     ])
 
 
@@ -79,9 +79,9 @@ def BMP280Write(sensorData,dateTime):
     dataLength = 2
     if(len(dataOut) == (dataLength +1)):
         sensorDictionary =  OrderedDict([
-                ("dateTime"     : str(dateTime)),
-        		("temperature"  :dataOut[0]),
-            	("pressure"     :dataOut[1])
+                ("dateTime"     , str(dateTime)),
+        		("temperature"  ,dataOut[0]),
+            	("pressure"     ,dataOut[1])
                 ])
 
     #Getting Write Path
@@ -94,12 +94,12 @@ def INA219Write(sensorData,dateTime):
 
     if(len(dataOut) == (dataLength +1)):
         sensorDictionary = OrderedDict([
-                ("dateTime"      :str(dateTime)),
-        	    ("shuntVoltage"  :dataOut[0]),
-            	("busVoltage"    :dataOut[1]),
-                ("currentMA"     :dataOut[2]),
-                ("powerMW"       :dataOut[3]),
-                ("loadVoltage"   :dataOut[4])
+                ("dateTime"      ,str(dateTime)),
+        	    ("shuntVoltage"  ,dataOut[0]),
+            	("busVoltage"    ,dataOut[1]),
+                ("currentMA"     ,dataOut[2]),
+                ("powerMW"       ,dataOut[3]),
+                ("loadVoltage"   ,dataOut[4])
         	     ])
 
     #Getting Write Path
@@ -111,52 +111,52 @@ def OPCN3Write(sensorData,dateTime):
     dataLength=43
     if(len(dataOut) == (dataLength +1)):
         sensorDictionary = OrderedDict([
-                ("dateTime"    :str(dateTime)),
-        		("valid"       :dataOut[0]),
-            	("binCount0"   :dataOut[1]),
-            	("binCount1"   :dataOut[2]),
-            	("binCount2"   :dataOut[3]),
-            	("binCount3"   :dataOut[4]),
-            	("binCount4"   :dataOut[5]),
-            	("binCount5"   :dataOut[6]),
-            	("binCount6"   :dataOut[7]),
-            	("binCount7"   :dataOut[8]),
-            	("binCount8"   :dataOut[9]),
-            	("binCount9"   :dataOut[10]),
-            	("binCount10"  :dataOut[11]),
-            	("binCount11"  :dataOut[12]),
-            	("binCount12"  :dataOut[13]),
-            	("binCount13"  :dataOut[14]),
-            	("binCount14"  :dataOut[15]),
-            	("binCount15"  :dataOut[16]),
-            	("binCount16"  :dataOut[17]),
-            	("binCount17"  :dataOut[18]),
-            	("binCount18"  :dataOut[19]),
-            	("binCount19"  :dataOut[20]),
-            	("binCount20"  :dataOut[21]),
-            	("binCount21"  :dataOut[22]),
-            	("binCount22"  :dataOut[23]),
-            	("binCount23"  :dataOut[24]),
-                ("bin1TimeToCross"      :dataOut[25]),
-                ("bin3TimeToCross"      :dataOut[26]),
-                ("bin5TimeToCross"      :dataOut[27]),
-                ("bin7TimeToCross"      :dataOut[28]),
-                ("samplingPeriod"       :dataOut[29]),
-                ("sampleFlowRate"       :dataOut[30]),
-                ("temperature"          :str(float(dataOut[31])/1000)),
-                ("humidity"             :str(float(dataOut[32])/500)),
-                ("pm1"                :dataOut[33]),
-                ("pm2_5"              :dataOut[34]),
-                ("pm10"               :dataOut[35]),
-                ("rejectCountGlitch"    :dataOut[36]),
-                ("rejectCountLongTOF"   :dataOut[37]),
-                ("rejectCountRatio"     :dataOut[38]),
-                ("rejectCountOutOfRange":dataOut[39]),
-                ("fanRevCount"          :dataOut[40]),
-                ("laserStatus"          :dataOut[41]),
-                ("checkSum"             :dataOut[42])
+                ("dateTime"    ,str(dateTime)),
+        		("valid"       ,dataOut[0]),
+            	("binCount0"   ,dataOut[1]),
+            	("binCount1"   ,dataOut[2]),
+            	("binCount2"   ,dataOut[3]),
+            	("binCount3"   ,dataOut[4]),
+            	("binCount4"   ,dataOut[5]),
+            	("binCount5"   ,dataOut[6]),
+            	("binCount6"   ,dataOut[7]),
+            	("binCount7"   ,dataOut[8]),
+            	("binCount8"   ,dataOut[9]),
+            	("binCount9"   ,dataOut[10]),
+            	("binCount10"  ,dataOut[11]),
+            	("binCount11"  ,dataOut[12]),
+            	("binCount12"  ,dataOut[13]),
+            	("binCount13"  ,dataOut[14]),
+            	("binCount14"  ,dataOut[15]),
+            	("binCount15"  ,dataOut[16]),
+            	("binCount16"  ,dataOut[17]),
+            	("binCount17"  ,dataOut[18]),
+            	("binCount18"  ,dataOut[19]),
+            	("binCount19"  ,dataOut[20]),
+            	("binCount20"  ,dataOut[21]),
+            	("binCount21"  ,dataOut[22]),
+            	("binCount22"  ,dataOut[23]),
+            	("binCount23"  ,dataOut[24]),
+                ("bin1TimeToCross"      ,dataOut[25]),
+                ("bin3TimeToCross"      ,dataOut[26]),
+                ("bin5TimeToCross"      ,dataOut[27]),
+                ("bin7TimeToCross"      ,dataOut[28]),
+                ("samplingPeriod"       ,dataOut[29]),
+                ("sampleFlowRate"       ,dataOut[30]),
+                ("temperature"          ,str(float(dataOut[31])/1000)),
+                ("humidity"             ,str(float(dataOut[32])/500)),
+                ("pm1"                ,dataOut[33]),
+                ("pm2_5"              ,dataOut[34]),
+                ("pm10"               ,dataOut[35]),
+                ("rejectCountGlitch"    ,dataOut[36]),
+                ("rejectCountLongTOF"   ,dataOut[37]),
+                ("rejectCountRatio"     ,dataOut[38]),
+                ("rejectCountOutOfRange",dataOut[39]),
+                ("fanRevCount"          ,dataOut[40]),
+                ("laserStatus"          ,dataOut[41]),
+                ("checkSum"             ,dataOut[42])
                 ])
-        
+
     #Getting Write Path
     sensorFinisher(dateTime,sensorName,sensorDictionary)
 
@@ -166,10 +166,10 @@ def LIBRADWrite(sensorData,dateTime):
     dataLength = 3
     if(len(dataOut) ==(dataLength +1)):
         sensorDictionary = OrderedDict([
-                ("dateTime"           :str(dateTime)),
-        	    ("countPerMinute"     :dataOut[0]),
-            	("radiationValue"     :dataOut[1]),
-                ("timeSpent"          :dataOut[2])
+                ("dateTime"           ,str(dateTime)),
+        	    ("countPerMinute"     ,dataOut[0]),
+            	("radiationValue"     ,dataOut[1]),
+                ("timeSpent"          ,dataOut[2])
         	     ])
 
         sensorFinisher(dateTime,sensorName,sensorDictionary)
@@ -181,11 +181,11 @@ def PPD42NSWrite(sensorData,dateTime):
     dataLength = 4
     if(len(dataOut) ==(dataLength +1)):
         sensorDictionary = OrderedDict([
-                ("dateTime"           :str(dateTime)),
-        	    ("lowPulseOccupancy"  :dataOut[0]),
-            	("concentration"      :dataOut[1]),
-                ("ratio"              :dataOut[2]),
-                ("timeSpent"          :dataOut[3])
+                ("dateTime"           ,str(dateTime)),
+        	    ("lowPulseOccupancy"  ,dataOut[0]),
+            	("concentration"      ,dataOut[1]),
+                ("ratio"              ,dataOut[2]),
+                ("timeSpent"          ,dataOut[3])
         	     ])
 
         sensorFinisher(dateTime,sensorName,sensorDictionary)
@@ -201,21 +201,21 @@ def GPSGPGGAWrite(dataString,dateTime):
     if(sensorData.gps_qual>0):
         sensorName = "GPSGPGGA"
         sensorDictionary = OrderedDict([
-                ("dateTime"          :str(dateTime)),
-                ("timestamp"         :sensorData.timestamp),
-                ("latitude"          :sensorData.lat),
-                ("latitudeDirection" :sensorData.lat_dir),
-                ("longitude"         :sensorData.lon),
-                ("longitudeDirection":sensorData.lon_dir),
-                ("gpsQuality"        :sensorData.gps_qual),
-                ("numberOfSatellites":sensorData.num_sats),
-                ("HorizontalDilution":sensorData.horizontal_dil),
-                ("altitude"          :sensorData.altitude),
-                ("altitudeUnits"     :sensorData.altitude_units),
-                ("undulation"        :sensorData.geo_sep),
-                ("undulationUnits"   :sensorData.geo_sep_units),
-                ("age"               :sensorData.age_gps_data),
-                ("stationID"         :sensorData.ref_station_id)
+                ("dateTime"          ,str(dateTime)),
+                ("timestamp"         ,sensorData.timestamp),
+                ("latitude"          ,sensorData.lat),
+                ("latitudeDirection" ,sensorData.lat_dir),
+                ("longitude"         ,sensorData.lon),
+                ("longitudeDirection",sensorData.lon_dir),
+                ("gpsQuality"        ,sensorData.gps_qual),
+                ("numberOfSatellites",sensorData.num_sats),
+                ("HorizontalDilution",sensorData.horizontal_dil),
+                ("altitude"          ,sensorData.altitude),
+                ("altitudeUnits"     ,sensorData.altitude_units),
+                ("undulation"        ,sensorData.geo_sep),
+                ("undulationUnits"   ,sensorData.geo_sep_units),
+                ("age"               ,sensorData.age_gps_data),
+                ("stationID"         ,sensorData.ref_station_id)
         	     ])
 
         #Getting Write Path
@@ -228,18 +228,18 @@ def GPSGPRMCWrite(dataString,dateTime):
     if(sensorData.status=='A'):
         sensorName = "GPSGPRMC"
         sensorDictionary = OrderedDict([
-                ("dateTime"             :str(dateTime),
-                ("timestamp"            :sensorData.timestamp),
-                ("status"               :sensorData.status),
-                ("latitude"             :sensorData.lat),
-                ("latitudeDirection"    :sensorData.lat_dir),
-                ("longitude"            :sensorData.lon),
-                ("longitudeDirection"   :sensorData.lon_dir),
-                ("speedOverGround"      :sensorData.spd_over_grnd),
-                ("trueCourse"           :sensorData.true_course),
-                ("dateStamp"            :sensorData.datestamp),
-                ("magVariation"         :sensorData.mag_variation),
-                ("magVariationDirection":sensorData.mag_var_dir)
+                ("dateTime"             ,str(dateTime),
+                ("timestamp"            ,sensorData.timestamp),
+                ("status"               ,sensorData.status),
+                ("latitude"             ,sensorData.lat),
+                ("latitudeDirection"    ,sensorData.lat_dir),
+                ("longitude"            ,sensorData.lon),
+                ("longitudeDirection"   ,sensorData.lon_dir),
+                ("speedOverGround"      ,sensorData.spd_over_grnd),
+                ("trueCourse"           ,sensorData.true_course),
+                ("dateStamp"            ,sensorData.datestamp),
+                ("magVariation"         ,sensorData.mag_variation),
+                ("magVariationDirection",sensorData.mag_var_dir)
                  ])
 
         #Getting Write Path
