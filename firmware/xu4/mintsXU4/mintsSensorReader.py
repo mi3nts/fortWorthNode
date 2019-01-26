@@ -228,7 +228,7 @@ def GPSGPRMCWrite(dataString,dateTime):
     if(sensorData.status=='A'):
         sensorName = "GPSGPRMC"
         sensorDictionary = OrderedDict([
-                ("dateTime"             ,str(dateTime),
+                ("dateTime"             ,str(dateTime)),
                 ("timestamp"            ,sensorData.timestamp),
                 ("status"               ,sensorData.status),
                 ("latitude"             ,sensorData.lat),
