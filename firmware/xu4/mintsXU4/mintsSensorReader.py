@@ -61,11 +61,11 @@ def HTU21DWrite(sensorData,dateTime):
     sensorName = "HTU21D"
     dataLength = 2
     if(len(dataOut) ==(dataLength +1)):
-        sensorDictionary = {
+        sensorDictionary = OrderedDict([
                 "dateTime"    : str(dateTime),
         	    "temperature" :dataOut[0],
             	"humidity"    :dataOut[1],
-        	     }
+        	     ])
 
 
     #Getting Write Path
@@ -76,11 +76,11 @@ def BMP280Write(sensorData,dateTime):
     sensorName = "BMP280"
     dataLength = 2
     if(len(dataOut) == (dataLength +1)):
-        sensorDictionary = {
+        sensorDictionary =  OrderedDict([
                 "dateTime"     : str(dateTime),
         		"temperature"  :dataOut[0],
             	"pressure"     :dataOut[1],
-        	     }
+                ])
 
     #Getting Write Path
     sensorFinisher(dateTime,sensorName,sensorDictionary)
@@ -91,14 +91,14 @@ def INA219Write(sensorData,dateTime):
     dataLength = 5
 
     if(len(dataOut) == (dataLength +1)):
-        sensorDictionary = {
+        sensorDictionary = OrderedDict([
                 "dateTime"      :str(dateTime),
         	    "shuntVoltage"  :dataOut[0],
             	"busVoltage"    :dataOut[1],
                 "currentMA"     :dataOut[2],
                 "powerMW"       :dataOut[3],
                 "loadVoltage"   :dataOut[4],
-        	     }
+        	     ])
 
     #Getting Write Path
     sensorFinisher(dateTime,sensorName,sensorDictionary)
@@ -108,7 +108,7 @@ def OPCN3Write(sensorData,dateTime):
     sensorName = "OPCN3"
     dataLength=43
     if(len(dataOut) == (dataLength +1)):
-        sensorDictionary = {
+        sensorDictionary = OrderedDict([
                 "dateTime"    :str(dateTime),
         		"valid"       :dataOut[0],
             	"binCount0"   :dataOut[1],
@@ -153,8 +153,8 @@ def OPCN3Write(sensorData,dateTime):
                 "fanRevCount"          :dataOut[40],
                 "laserStatus"          :dataOut[41],
                 "checkSum"             :dataOut[42],
-
-             }
+                ])
+        
     #Getting Write Path
     sensorFinisher(dateTime,sensorName,sensorDictionary)
 
@@ -163,12 +163,12 @@ def LIBRADWrite(sensorData,dateTime):
     sensorName = "LIBRAD"
     dataLength = 3
     if(len(dataOut) ==(dataLength +1)):
-        sensorDictionary = {
+        sensorDictionary = OrderedDict([
                 "dateTime"           :str(dateTime),
-        	"countPerMinute"     :dataOut[0],
+        	    "countPerMinute"     :dataOut[0],
             	"radiationValue"     :dataOut[1],
                 "timeSpent"          :dataOut[2],
-        	     }
+        	     ])
 
         sensorFinisher(dateTime,sensorName,sensorDictionary)
 
@@ -178,13 +178,13 @@ def PPD42NSWrite(sensorData,dateTime):
     sensorName = "PPD42NS"
     dataLength = 4
     if(len(dataOut) ==(dataLength +1)):
-        sensorDictionary = {
+        sensorDictionary = OrderedDict([
                 "dateTime"           :str(dateTime),
-        	"lowPulseOccupancy"  :dataOut[0],
+        	    "lowPulseOccupancy"  :dataOut[0],
             	"concentration"      :dataOut[1],
                 "ratio"              :dataOut[2],
                 "timeSpent"          :dataOut[3]
-        	     }
+        	     ])
 
         sensorFinisher(dateTime,sensorName,sensorDictionary)
 
@@ -198,7 +198,7 @@ def GPSGPGGAWrite(dataString,dateTime):
     sensorData = pynmea2.parse(dataStringPost)
     if(sensorData.gps_qual>0):
         sensorName = "GPSGPGGA"
-        sensorDictionary = {
+        sensorDictionary = OrderedDict([
                 "dateTime"          :str(dateTime),
                 "timestamp"         :sensorData.timestamp,
                 "latitude"          :sensorData.lat,
@@ -214,7 +214,7 @@ def GPSGPGGAWrite(dataString,dateTime):
                 "undulationUnits"   :sensorData.geo_sep_units,
                 "age"               :sensorData.age_gps_data,
                 "stationID"         :sensorData.ref_station_id
-        	     }
+        	     ])
 
         #Getting Write Path
         sensorFinisher(dateTime,sensorName,sensorDictionary)
@@ -225,7 +225,7 @@ def GPSGPRMCWrite(dataString,dateTime):
     sensorData = pynmea2.parse(dataStringPost)
     if(sensorData.status=='A'):
         sensorName = "GPSGPRMC"
-        sensorDictionary = {
+        sensorDictionary = OrderedDict([
                 "dateTime"             :str(dateTime),
                 "timestamp"            :sensorData.timestamp,
                 "status"               :sensorData.status,
@@ -238,7 +238,7 @@ def GPSGPRMCWrite(dataString,dateTime):
                 "dateStamp"            :sensorData.datestamp,
                 "magVariation"         :sensorData.mag_variation,
                 "magVariationDirection":sensorData.mag_var_dir,
-                     }
+                 ])
 
         #Getting Write Path
         sensorFinisher(dateTime,sensorName,sensorDictionary)
