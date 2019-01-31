@@ -10,7 +10,7 @@ def findPort(find):
             return(currentPort.split(" ")[0])
 
 
-dataFolder          = "/home/teamlary/gitHubRepos/data/mintsData/"
+dataFolder          = "/home/teamlary/mintsData/"
 duePort             = findPort("Arduino Due")
 nanoPort            = findPort("FT232R USB UART")
 show2Port           = findPort("CP2104 USB to UART Bridge Controller")
