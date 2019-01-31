@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sleep 5
+sleep 60
 python3 centralNodeReaderDue.py &
 sleep 5
 python3 centralNodeReaderGPS.py &

@@ -30,7 +30,7 @@ def main():
 
     lastGPRMC = time.time()
     lastGPGGA = time.time()
-    delta  = 10
+    delta  = 2
     print("connected to: " + ser.portstr)
 
     #this will store the line
