@@ -12,8 +12,10 @@ import pynmea2
 from collections import OrderedDict
 
 
-macAddress = mD.macAddress
-dataFolder = mD.dataFolder
+macAddress    = mD.macAddress
+dataFolder    = mD.dataFolder
+gisNode       = mD.gisNode
+
 
 
 
@@ -22,7 +24,9 @@ def sensorFinisher(dateTime,sensorName,sensorDictionary):
     writePath = getWritePath(sensorName,dateTime)
     exists = directoryCheck(writePath)
     writeCSV2(writePath,sensorDictionary,exists)
-    mL.writeHDF5Latest(writePath,sensorDictionary,sensorName)
+    if(not(GISNode)):
+       mL.writeHDF5Latest(writePath,sensorDictionary,sensorName)
+   
     print("-----------------------------------")
     print(sensorName)
     print(sensorDictionary)
