@@ -16,7 +16,7 @@ void sensorPrintMints(String sensor,String readings[],uint8_t numOfvals){
       {
         SerialUSB.print(readings[i]+":");
       }
-      SerialUSB.print("-");
+      SerialUSB.print("~");
 }
 
 

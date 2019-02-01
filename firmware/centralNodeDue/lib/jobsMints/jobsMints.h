@@ -1,7 +1,7 @@
 #ifndef JOBS_MINTS_H
 #define JOBS_MINTS_H
 
-#include <Arduino.h>
+// #include <Arduino.h>
 #include "devicesMints.h"
 
 

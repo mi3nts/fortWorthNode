@@ -30,10 +30,15 @@ void readHTU21DMints(){
 
 bool initializeBMP280Mints(){
 
-  if (bme.begin()) {
+  if (bmp.begin()) {
     Serial.println("BMP280 Initiated");
     delay(1);
-    return true;
+  return true;
+    /* Default settings from datasheet. */
+
+
+
+
   }else{
     Serial.println("BMP280 not found");
     delay(1);
@@ -44,13 +49,77 @@ bool initializeBMP280Mints(){
 
 void readBMP280Mints(){
 
-  float temperature    = bme.readTemperature();
-  float pressure       = bme.readPressure();
+  float temperature    = bmp.readTemperature();
+  float pressure       = bmp.readPressure();
 
   String readings[2] = { String(temperature,2) , String(pressure,2) };
   sensorPrintMints("BMP280",readings,2);
 }
 
+
+
+// // BME280  ---------------------------------------
+
+bool initializeBME280Mints(){
+
+
+      if (bme280.init()) {
+        Serial.println("BME280 Initiated");
+        delay(1);
+        return true;
+      }
+      else
+      {
+      Serial.println("BME280 not found");
+      delay(1);
+      return false;
+      }
+}
+
+void readBME280Mints(){
+
+
+
+  float temperature    = bme280.getTemperature();
+  float pressure       = bme280.getPressure();
+  float humidity       = bme280.getHumidity();
+  float altitude       = bme280.calcAltitude(pressure);
+
+  String readings[4] = { String(temperature,2) , String(pressure,2), String(humidity,2) , String(altitude,2) };
+  sensorPrintMints("BME280",readings,4);
+}
+
+
+
+
+
+
+
+
+
+// INA219  ---------------------------------------
+
+bool initializeINA219Mints(){
+    ina.begin();
+    Serial.println("INA219 Initiated");
+    delay(1);
+    return true;
+}
+
+void readINA219Mints(){
+
+  float shuntVoltage  = ina.getShuntVoltage_mV();
+  float busVoltage    = ina.getBusVoltage_V();
+  float currentMA     = ina.getCurrent_mA();
+  float powerMW      = ina.getPower_mW();
+  float loadVoltage  = busVoltage + (shuntVoltage / 1000);
+
+
+  String readings[5] = { String(shuntVoltage,4) , String(busVoltage,4),  String(currentMA,4) , String(powerMW,4), String(loadVoltage,4)};
+  sensorPrintMints("INA219",readings,5);
+
+
+}
 
 
 
@@ -117,47 +186,6 @@ void readOPCN3Mints(){
 
 
 }
-
-
-
-// // INA219  ---------------------------------------
-//
-// void initializeINA219Mints(){
-//
-//   if (ina219.begin()) {
-//     Serial.println("INA219 Initiated");
-//     delay(1);
-//   }else{
-//     Serial.println("INA219 not found");
-//   }
-//
-// }
-//
-// void readINA219Mints(){
-//
-//   float shuntvoltage = 0;
-//   float busvoltage = 0;
-//   float current_mA = 0;
-//   float loadvoltage = 0;
-//   float power_mW = 0;
-//
-//   shuntvoltage = ina219.getShuntVoltage_mV();
-//   busvoltage   = ina219.getBusVoltage_V();
-//   current_mA   = ina219.getCurrent_mA();
-//   power_mW     = ina219.getPower_mW();
-//   loadvoltage  = busvoltage + (shuntvoltage / 1000);
-//
-//   Serial.print("Bus Voltage:   "); Serial.print(busvoltage); Serial.println(" V");
-//   Serial.print("Shunt Voltage: "); Serial.print(shuntvoltage); Serial.println(" mV");
-//   Serial.print("Load Voltage:  "); Serial.print(loadvoltage); Serial.println(" V");
-//   Serial.print("Current:       "); Serial.print(current_mA); Serial.println(" mA");
-//   Serial.print("Power:         "); Serial.print(power_mW); Serial.println(" mW");
-//   Serial.println("");
-//
-//   SerialUSB.print("-BMP280;"); printTimeOnlyMints();SerialUSB.print(";");SerialUSB.print(temperature);SerialUSB.print(":");SerialUSB.print(pressure);SerialUSB.print("-");
-//
-// }
-
 
 
 

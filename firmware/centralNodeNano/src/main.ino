@@ -10,16 +10,16 @@
 bool PPD42NSOnline;
 uint8_t PPD42NSPin = 10;
 
-bool    LIBRadOnline;
-uint8_t LIBRadPin   = 2;
-long    LIBRadCount = 0;
+bool    LIBRADOnline;
+uint8_t LIBRADPin   = 2;
+long    LIBRADCount = 0;
 
 void setup() {
   initializeSerialMints();
   delay(1000);
   PPD42NSOnline = initializePPD42NSMints();
   delay(1000);
-  LIBRadOnline  = initializeLIBRadMints();
+  LIBRADOnline  = initializeLIBRADMints();
   delay(1000);
 }
 
@@ -31,9 +31,9 @@ void loop() {
         readPPD42NSMints(5);
       }
 
-  if(LIBRadOnline)
+  if(LIBRADOnline)
       {
-        readLIBRadMints(5);
+        readLIBRADMints(5);
       }
 
 }

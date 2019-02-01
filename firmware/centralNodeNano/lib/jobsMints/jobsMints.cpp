@@ -16,7 +16,7 @@ void sensorPrintNanoMints(String sensor,String readings[],uint8_t numOfvals){
       {
         Serial.print(readings[i]+":");
       }
-      Serial.print("-");
+      Serial.print("~");
 }
 
 

@@ -1,9 +1,6 @@
 
 #include "devicesMints.h"
 
-
-
-
 // // PPD42NS ---------------------------------------
 bool initializePPD42NSMints(){
     pinMode(PPD42NSPin,INPUT);
@@ -16,7 +13,7 @@ void readPPD42NSMints(uint8_t sampleTimeSeconds)  {
     unsigned long duration;
     unsigned long starttime;
     unsigned long sampletime_ms = sampleTimeSeconds*1000;//sampe 30s ;
-    unsigned long lowpulseoccupancy = 0;
+    unsigned long lowPulseOccupancy = 0;
     float ratio = 0;
     float concentration = 0;
 
@@ -24,13 +21,13 @@ void readPPD42NSMints(uint8_t sampleTimeSeconds)  {
 
     while ((millis()-starttime) < sampletime_ms) {
         duration = pulseIn(PPD42NSPin, LOW);
-        lowpulseoccupancy = lowpulseoccupancy + duration;
+        lowPulseOccupancy = lowPulseOccupancy + duration;
     }
 
     unsigned long timeSpent = millis()-starttime;
-    ratio = lowpulseoccupancy/(sampletime_ms*10.0);  // Integer percentage 0=>100
+    ratio = lowPulseOccupancy/(sampletime_ms*10.0);  // Integer percentage 0=>100
     concentration = 1.1*pow(ratio,3)-3.8*pow(ratio,2)+520*ratio+0.62; // using spec sheet curve
-    String readings[4] = { String(lowpulseoccupancy), String(concentration,4), String(ratio,4), String(timeSpent) };
+    String readings[4] = { String(lowPulseOccupancy), String(concentration,4), String(ratio,4), String(timeSpent) };
     sensorPrintNanoMints("PPD42NS",readings,4);
 
 }
@@ -38,38 +35,38 @@ void readPPD42NSMints(uint8_t sampleTimeSeconds)  {
 
 // // LIBRad ---------------------------------------
 
-bool initializeLIBRadMints(){
-    pinMode(LIBRadPin, INPUT);
-    digitalWrite(LIBRadPin,HIGH);
+bool initializeLIBRADMints(){
+    pinMode(LIBRADPin, INPUT);
+    digitalWrite(LIBRADPin,HIGH);
     delay(1);
     return true;
   }
 
-void countPulseLIBRadMints(){
+void countPulseLIBRADMints(){
 
       detachInterrupt(0);
-      LIBRadCount++;
-      while(digitalRead(LIBRadPin)==0){
+      LIBRADCount++;
+      while(digitalRead(LIBRADPin)==0){
       }
-      attachInterrupt(0,countPulseLIBRadMints,FALLING);
+      attachInterrupt(0,countPulseLIBRADMints,FALLING);
 }
 
-void readLIBRadMints(uint8_t sampleTimeSeconds)  {
+void readLIBRADMints(uint8_t sampleTimeSeconds)  {
 
-    LIBRadCount = 0;
+    LIBRADCount = 0;
 
     unsigned long sampleTimeMS = sampleTimeSeconds*1000;
     unsigned long startTime = millis();
-    attachInterrupt(0,countPulseLIBRadMints,FALLING);
+    attachInterrupt(0,countPulseLIBRADMints,FALLING);
     while ((millis()-startTime) < sampleTimeMS) {
     }
     detachInterrupt(0);
     unsigned long timeSpent = millis()-startTime;
 
-    float countPerMinute = (float(LIBRadCount)*float(60000))/float(timeSpent) ;
+    float countPerMinute = (float(LIBRADCount)*float(60000))/float(timeSpent) ;
     float radiationValue = countPerMinute*CONV_FACTOR;
-    String readings[2] = { String(countPerMinute,4), String(radiationValue,4)};
-    sensorPrintNanoMints("LIBRad",readings,2);
+    String readings[3] = { String(countPerMinute,4), String(radiationValue,4), String(timeSpent)};
+    sensorPrintNanoMints("LIBRAD",readings,3);
 
 }
 

@@ -12,13 +12,10 @@ extern uint8_t PPD42NSPin;
 bool initializePPD42NSMints();
 void readPPD42NSMints(uint8_t sampleTimeSeconds);
 
-extern uint8_t LIBRadPin;
-extern long    LIBRadCount;
-bool initializeLIBRadMints();
-void countPulseLIBRadMints();
-void readLIBRadMints(uint8_t sampleTimeSeconds);
-
-
-
+extern uint8_t LIBRADPin;
+extern long    LIBRADCount;
+bool initializeLIBRADMints();
+void countPulseLIBRADMint();
+void readLIBRADMints(uint8_t sampleTimeSeconds);
 
 #endif

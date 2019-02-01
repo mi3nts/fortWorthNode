@@ -1,36 +1,63 @@
+//
 #include <Arduino.h>
+#include <Adafruit_Sensor.h>
 #include <Adafruit_HTU21DF.h>
 #include <Adafruit_BMP280.h>
-#include "OPCN3Mints.h"
+#include "Seeed_BME280.h"
 #include <Wire.h>
 
 
-#include <devicesMints.h>
-#include <jobsMints.h>
+#include <Adafruit_INA219.h>
+#include "OPCN3Mints.h"
 
-
+#include "OPCN3Mints.h"
 // #include <Adafruit_INA219.h>
+// #include "OPCN3Mints.h"
 
-Adafruit_HTU21DF htu = Adafruit_HTU21DF();
-Adafruit_BMP280 bme;
 
-// Adafruit_INA219 ina219;
+
+#include "devicesMints.h"
+#include "jobsMints.h"
+
+
+//
+
+
+
+
+
+bool BME280Online;
+BME280 bme280; // I2C
+//
+// bool BMP280Online;
+// Adafruit_BMP280 bmp;
+//
+// bool HTU21DOnline;
+// Adafruit_HTU21DF htu = Adafruit_HTU21DF();
+
+
+//
+// bool  INA219Online;
+// Adafruit_INA219 ina;
 // uint32_t currentFrequency;
 
-// bool serialOut = true;
 
 #define CS 10
+bool  OPCN3Online;
 OPCN3Mints opc = OPCN3Mints(CS);
 
+//
+// // bool serialOut = true;
+//
+
+//
+
+uint16_t sensingPeriod = 1000;
 
 // String inputString = "";         // a String to hold incoming data
-// bool stringComplete = false;  // whether the string is complete
-
-bool HTU21DOnline;
-bool BMP280Online;
-bool  OPCN3Online;
-
-
+// // bool stringComplete = false;  // whether the string is complete
+//
+//
 
 
 
@@ -39,56 +66,56 @@ void setup() {
   initializeSerialMints();
   delay(1000);
   initializeSerialUSBMints();
+
   delay(1000);
-  HTU21DOnline = initializeHTU21DMints();
+  BME280Online = initializeBME280Mints();
   delay(1000);
-  BMP280Online = initializeBMP280Mints();
-  delay(1000);
+  // BMP280Online = initializeBMP280Mints();
+  // HTU21DOnline = initializeHTU21DMints();
+  // delay(500);
+  // INA219Online = initializeINA219Mints();
+  // delay(1000);
   OPCN3Online =  initializeOPCN3Mints();
-  delay(1000);
+  delay(1500);
+
+
 }
-;
+
 
 // the loop routine runs over and over again forever:
 void loop() {
 
-
-    if(HTU21DOnline)
+    delay(sensingPeriod);
+    if(BME280Online)
     {
-      readHTU21DMints();
+      readBME280Mints();
     }
 
-delay(2000);
+    // delay(sensingPeriod);
+    // if(HTU21DOnline)
+    // {
+    //   readHTU21DMints();
+    // }
+    //
+    // delay(sensingPeriod);
+    // if(BMP280Online)
+    // {
+    //   readBMP280Mints();
+    // }
 
-    if(BMP280Online)
+    delay(sensingPeriod);
+    if(OPCN3Online)
     {
-      readBMP280Mints();
+      readOPCN3Mints();
     }
 
-delay(2000);
 
-   if(OPCN3Online)
-      {
-         readOPCN3Mints();
-      }
-delay(2000);
-
-
-
-      // delay(5000);
-      // OPCN3.readPMData();
-      //
-   //   // // }
-   //  float  lk = 12.2392;
-   //  String lks = String(lk,4);
-   //  Serial.println(lks);
-   //  // String lkt = {"sskjfsf","fjfsadffg"};
-   //  // sensorPrintMints("HTU21D",lkt,2);
+   // delay(1000);
    //
-   // String ordinal[5] = { "first", "second", "third", "fourth", "fifth"};
-   //
-   //
-   //  sensorPrintMints("String sensor",ordinal,5);
+  // if(INA219Online)
+  // {
+  //   readINA219Mints();
+  // }
 
 }
 
