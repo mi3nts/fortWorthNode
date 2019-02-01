@@ -63,7 +63,7 @@ def sensorSend(sensorID,sensorData,dateTime):
     if(sensorID=="PPD42NS"):
         PPD42NSWrite(sensorData,dateTime)
 
- def BME280Write(sensorData,dateTime):
+def BME280Write(sensorData,dateTime):
     dataOut    = sensorData.split(':')
     sensorName = "BME280"
     dataLength = 4
@@ -75,8 +75,8 @@ def sensorSend(sensorID,sensorData,dateTime):
                 ("humidity"     ,dataOut[2]),
             	("altitude"     ,dataOut[3])
                 ])
-        
-
+    sensorFinisher(dateTime,sensorName,sensorDictionary)
+    
 def HTU21DWrite(sensorData,dateTime):
     dataOut    = sensorData.split(':')
     sensorName = "HTU21D"
