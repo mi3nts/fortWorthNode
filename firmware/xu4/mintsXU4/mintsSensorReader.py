@@ -66,7 +66,7 @@ def sensorSend(sensorID,sensorData,dateTime):
  def BME280Write(sensorData,dateTime):
     dataOut    = sensorData.split(':')
     sensorName = "BME280"
-    dataLength = 2
+    dataLength = 4
     if(len(dataOut) == (dataLength +1)):
         sensorDictionary =  OrderedDict([
                 ("dateTime"     , str(dateTime)),
