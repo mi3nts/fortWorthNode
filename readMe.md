@@ -1,47 +1,38 @@
-# Central Node
+# GIS Node
 
 ## Introduction 
-Portable devices which can detect airbourne particulates are finding its way into current consumer markets. Unlike there bulky, stationary counterparts the small scale nature of such sensors feeds into a more user friendly, hazzle free platform. The current document proposes such a portable device which encorparates an ensemble of IOT sensors .
+The current repo introduces a device which is inteneded to be portable particulate matter sensor. The device and its software  is meant to be developed and deployed in an abrupt manner.
 
 ### Design Specifications  
 
-1. Sensor Brain: [Arduino Due](https://store.arduino.cc/usa/arduino-due)
-- The Node will run on the Arduino Platform. 
+1. Node Brain: [Odroid XU4](https://ameridroid.com/products/odroid-xu4)
+- - The XU4 runs on a Linux platform. 
 
-2. OPC Sensor: 
+2. Sensor Hub: [Arduino Due](https://store.arduino.cc/usa/arduino-due)
+- The Sensor Hub is ran on an Arduino Platform. 
+
+3. Primary Sensor: 
  - Alhpa Sense OPC-N3 <br/>
    **http://www.alphasense.com/WEB1213/wp-content/uploads/2018/02/OPC-N3.pdf** <br/>      
 
-3. Secondary Sensors: 
-- Temprature
-- Humidity 
-- Pressure 
-- GPS 
-- Ozone Sensor
-- Skyward Looking Camera 
-- Gas Sensor
+4. Secondary Sensors: 
+- [BME 280](http://wiki.seeedstudio.com/Grove-Barometer_Sensor-BME280/): measures Temprature, Humidity, Pressure 
+- [UBLOX GPS](https://www.amazon.com/Waterproof-Navigator-Automobile-Navigation-Compatible/dp/B071XY4R26/ref=asc_df_B071XY4R26/?tag=hyprod-20&linkCode=df0&hvadid=312129973570&hvpos=1o4&hvnetw=g&hvrand=10149593131629630592&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9026945&hvtargid=pla-378730411150&psc=1) 
 
- 
- 
+5. Power :
+- [Rawpower Portable Battery](https://www.amazon.com/RAVPower-10000mAh-Ultra-Slim-High-Density-Li-Polymer/dp/B077CZ8412/ref=sr_1_8?ie=UTF8&qid=1549294766&sr=8-8&keywords=portable+charger&refinements=p_89%3ARAVPower): Quick Charge 3.0 RAVPower 10000mAh Portable Charger  
 
-4. Power :
-- Uses between 3W - 12W
-- Will be powered through a portable USB Battery that is to be charged via a solar panel.
-- Will be equipped with a power sensor to monitor battery level 
+6. Onbaord Date Storage: 
+- The device contains an onbaord SD card. Can store upto 24(hours)*250(days) of data.  
 
-5. Date Output: 
-- On board OLED  
-- Google Sheets 
-- Dropbox  
+7. Data Output: 
+-  Data is streamed to a server at University of Texas at Dallas through (wifi)[https://ameridroid.com/products/wifi-module-0](when available) or via the ethernet port. 
 
-6. Onbaord  Date Storage: 
-- The device contains an onbaord SD card 
 
-7 - Web Connectivity:
-- The node will have a hardwired internet connection via a RJ45, Ethernet cable.
 
-8. Weight:
-- 1.5 Kg
+
+
+
 
 
 
