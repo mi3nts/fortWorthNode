@@ -12,8 +12,7 @@ The current repo introduces a device which is inteneded to be portable particula
 - The Sensor Hub is ran on an Arduino Platform. 
 
 3. Primary Sensor: 
- - Alhpa Sense OPC-N3 <br/>
-   **http://www.alphasense.com/WEB1213/wp-content/uploads/2018/02/OPC-N3.pdf** <br/>      
+- Alhpa Sense [OPC-N3](http://www.alphasense.com/WEB1213/wp-content/uploads/2018/02/OPC-N3.pdf): Measures pm1,pm2.5 pm10, particulate matter distribution with 24 bins from  0.35um to 40um in diametor.  
 
 4. Secondary Sensors: 
 - [BME 280](http://wiki.seeedstudio.com/Grove-Barometer_Sensor-BME280/): measures Temprature, Humidity, Pressure 
@@ -26,13 +25,4 @@ The current repo introduces a device which is inteneded to be portable particula
 - The device contains an onbaord SD card. Can store upto 24(hours)*250(days) of data.  
 
 7. Data Output: 
--  Data is streamed to a server at University of Texas at Dallas through (wifi)[https://ameridroid.com/products/wifi-module-0](when available) or via the ethernet port. 
-
-
-
-
-
-
-
-
-
+-  Data is streamed to a server at University of Texas at Dallas through (wifi)[https://ameridroid.com/products/wifi-module-0](when available) or via the onboard ethernet port on the XU4. 
