@@ -16,7 +16,7 @@ The current repo introduces a device which is inteneded to be portable particula
 
 4. Secondary Sensors: 
 - [BME 280](http://wiki.seeedstudio.com/Grove-Barometer_Sensor-BME280/): measures Temprature, Humidity, Pressure 
-- [UBLOX GPS](https://www.amazon.com/Waterproof-Navigator-Automobile-Navigation-Compatible/dp/B071XY4R26/ref=asc_df_B071XY4R26/?tag=hyprod-20&linkCode=df0&hvadid=312129973570&hvpos=1o4&hvnetw=g&hvrand=10149593131629630592&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9026945&hvtargid=pla-378730411150&psc=1) 
+- [UBLOX GPS](https://www.amazon.com/Waterproof-Navigator-Automobile-Navigation-Compatible/dp/B071XY4R26/ref=asc_df_B071XY4R26/?tag=hyprod-20&linkCode=df0&hvadid=312129973570&hvpos=1o4&hvnetw=g&hvrand=10149593131629630592&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9026945&hvtargid=pla-378730411150&psc=1): measures Latitude, Longitude, Altitude, DateTime and Speed. 
 
 5. Power :
 - [Rawpower Portable Battery](https://www.amazon.com/RAVPower-10000mAh-Ultra-Slim-High-Density-Li-Polymer/dp/B077CZ8412/ref=sr_1_8?ie=UTF8&qid=1549294766&sr=8-8&keywords=portable+charger&refinements=p_89%3ARAVPower): Quick Charge 3.0 RAVPower 10000mAh Portable Charger  
