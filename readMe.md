@@ -12,7 +12,7 @@ The current repo introduces a device which is inteneded to be portable particula
 - [Arduino Due](https://store.arduino.cc/usa/arduino-due): The Sensor Hub is ran on an Arduino Platform. 
 
 3. Primary Sensor:
-- [Alpha Sense OPC-N3](http://www.alphasense.com/WEB1213/wp-content/uploads/2018/02/OPC-N3.pdf): Measures pm1,pm2.5 pm10, particulate matter distribution with 24 bins from  0.35um to 40um in diametor.  
+- [Alpha Sense OPC-N3](http://www.alphasense.com/WEB1213/wp-content/uploads/2018/02/OPC-N3.pdf): Measures pm1, pm2.5, pm10, temperature, humidity and Particulate Matter distribution with 24 bins from 0.35um to 40um in diametor.  
 
 4. Secondary Sensors: 
 - [BME 280](http://wiki.seeedstudio.com/Grove-Barometer_Sensor-BME280/): measures Temprature, Humidity, Pressure 
