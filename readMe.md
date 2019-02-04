@@ -25,4 +25,4 @@ The current repo introduces a device which is inteneded to be portable particula
 - The device contains an onbaord SD card. Can store upto 24(hours)*250(days) of data.  
 
 7. Data Output: 
--  Data is streamed to a server at University of Texas at Dallas through (wifi)[https://ameridroid.com/products/wifi-module-0](when available) or via the onboard ethernet port on the XU4. 
+-  Data is streamed to a server at University of Texas at Dallas through [Wi-Fi](https://ameridroid.com/products/wifi-module-0)(when available) or via the onboard ethernet port on the XU4. 
