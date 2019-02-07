@@ -5,7 +5,7 @@ from mintsXU4 import mintsSensorReader as mSR
 from mintsXU4 import mintsDefinitions as mD
 
 dataFolder = mD.dataFolder
-duePort    = mD.duePort
+duePort    = mD.nanoPort
 
 def main():
 

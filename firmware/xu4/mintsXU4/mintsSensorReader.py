@@ -29,7 +29,7 @@ from collections import OrderedDict
 
 macAddress    = mD.macAddress
 dataFolder    = mD.dataFolder
-gisNode       = mD.gisNode
+latestOff       = mD.latestOff
 
 
 
@@ -39,7 +39,7 @@ def sensorFinisher(dateTime,sensorName,sensorDictionary):
     writePath = getWritePath(sensorName,dateTime)
     exists = directoryCheck(writePath)
     writeCSV2(writePath,sensorDictionary,exists)
-    if(not(gisNode)):
+    if(not(latestOff)):
        mL.writeHDF5Latest(writePath,sensorDictionary,sensorName)
 
     print("-----------------------------------")
@@ -65,19 +65,27 @@ def sensorSplit(dataQuota,dateTime):
 def sensorSend(sensorID,sensorData,dateTime):
     if(sensorID=="BME280"):
         BME280Write(sensorData,dateTime)
+    if(sensorID=="MGS001"):
+        MGS001Write(sensorData,dateTime)
+    if(sensorID=="SCD30"):
+        SCD30Write(sensorData,dateTime)
+    if(sensorID=="OPCN3"):
+        OPCN3Write(sensorData,dateTime)
+    if(sensorID=="VEML6070"):
+        VEML6070Write(sensorData,dateTime)
+    if(sensorID=="TSL2591"):
+        TSL2591Write(sensorData,dateTime)
+    if(sensorID=="LIBRAD"):
+        LIBRADWrite(sensorData,dateTime)
+
     if(sensorID=="HTU21D"):
         HTU21DWrite(sensorData,dateTime)
     if(sensorID=="BMP280"):
         BMP280Write(sensorData,dateTime)
     if(sensorID=="INA219"):
         INA219Write(sensorData,dateTime)
-    if(sensorID=="OPCN3"):
-        OPCN3Write(sensorData,dateTime)
-    if(sensorID=="LIBRAD"):
-        LIBRADWrite(sensorData,dateTime)
     if(sensorID=="PPD42NS"):
         PPD42NSWrite(sensorData,dateTime)
-
 
 def BME280Write(sensorData,dateTime):
     dataOut    = sensorData.split(':')
@@ -91,7 +99,88 @@ def BME280Write(sensorData,dateTime):
                 ("humidity"     ,dataOut[2]),
             	("altitude"     ,dataOut[3])
                 ])
-    sensorFinisher(dateTime,sensorName,sensorDictionary)
+        sensorFinisher(dateTime,sensorName,sensorDictionary)
+
+
+def MGS001Write(sensorData,dateTime):
+    dataOut    = sensorData.split(':')
+    sensorName = "MGS001"
+    dataLength = 8
+    if(len(dataOut) == (dataLength +1)):
+        sensorDictionary =  OrderedDict([
+                ("dateTime"   , str(dateTime)),
+        		("nh3"        ,dataOut[0]),
+            	("co"         ,dataOut[1]),
+                ("no2"        ,dataOut[2]),
+            	("c3h8"       ,dataOut[3]),
+        		("c4h10"      ,dataOut[4]),
+            	("ch4"        ,dataOut[5]),
+                ("h2"         ,dataOut[6]),
+            	("c2h5oh  "   ,dataOut[7]),
+                ])
+        sensorFinisher(dateTime,sensorName,sensorDictionary)
+
+
+def SCD30Write(sensorData,dateTime):
+    dataOut    = sensorData.split(':')
+    sensorName = "SCD30"
+    dataLength = 3
+    if(len(dataOut) == (dataLength +1)):
+        sensorDictionary =  OrderedDict([
+                ("dateTime"     , str(dateTime)),
+        		("c02"          ,dataOut[0]),
+            	("temperature"  ,dataOut[1]),
+                ("humidity"     ,dataOut[2]),
+
+                ])
+        sensorFinisher(dateTime,sensorName,sensorDictionary)
+
+
+def LIBRADWrite(sensorData,dateTime):
+    dataOut    = sensorData.split(':')
+    sensorName = "LIBRAD"
+    dataLength = 4
+    if(len(dataOut) ==(dataLength +1)):
+        sensorDictionary = OrderedDict([
+                ("dateTime"           ,str(dateTime)),
+        	    ("countPerMinute"     ,dataOut[0]),
+            	("radiationValue"     ,dataOut[1]),
+                ("timeSpent"          ,dataOut[2]),
+                ("LIBRADCount"        ,dataOut[3])
+        	     ])
+
+        sensorFinisher(dateTime,sensorName,sensorDictionary)
+
+
+def VEML6070Write(sensorData,dateTime):
+    dataOut    = sensorData.split(':')
+    sensorName = "VEML6070"
+    dataLength = 1
+    if(len(dataOut) ==(dataLength +1)):
+        sensorDictionary = OrderedDict([
+                ("dateTime"    , str(dateTime)),
+        	    ("UVLightLevel" ,dataOut[0]),
+        	     ])
+
+        sensorFinisher(dateTime,sensorName,sensorDictionary)
+
+def TSL2591Write(sensorData,dateTime):
+    dataOut    = sensorData.split(':')
+    sensorName = "TSL2591"
+    dataLength = 5
+    if(len(dataOut) ==(dataLength +1)):
+        sensorDictionary = OrderedDict([
+                ("dateTime"   ,str(dateTime)),
+        	    ("luminosity" ,dataOut[0]),
+            	("ir"         ,dataOut[1]),
+                ("full"       ,dataOut[2]),
+                ("visible"    ,dataOut[3]),
+                ("lux"        ,dataOut[4])
+        	     ])
+
+        sensorFinisher(dateTime,sensorName,sensorDictionary)
+
+
 
 def HTU21DWrite(sensorData,dateTime):
     dataOut    = sensorData.split(':')
@@ -105,8 +194,8 @@ def HTU21DWrite(sensorData,dateTime):
         	     ])
 
 
-    #Getting Write Path
-    sensorFinisher(dateTime,sensorName,sensorDictionary)
+        #Getting Write Path
+        sensorFinisher(dateTime,sensorName,sensorDictionary)
 
 def BMP280Write(sensorData,dateTime):
     dataOut    = sensorData.split(':')
@@ -119,8 +208,8 @@ def BMP280Write(sensorData,dateTime):
             	("pressure"     ,dataOut[1])
                 ])
 
-    #Getting Write Path
-    sensorFinisher(dateTime,sensorName,sensorDictionary)
+        #Getting Write Path
+        sensorFinisher(dateTime,sensorName,sensorDictionary)
 
 def INA219Write(sensorData,dateTime):
     dataOut    = sensorData.split(':')
@@ -137,8 +226,8 @@ def INA219Write(sensorData,dateTime):
                 ("loadVoltage"   ,dataOut[4])
         	     ])
 
-    #Getting Write Path
-    sensorFinisher(dateTime,sensorName,sensorDictionary)
+        #Getting Write Path
+        sensorFinisher(dateTime,sensorName,sensorDictionary)
 
 def OPCN3Write(sensorData,dateTime):
     dataOut    = sensorData.split(':')
@@ -192,22 +281,9 @@ def OPCN3Write(sensorData,dateTime):
                 ("checkSum"             ,dataOut[42])
                 ])
 
-    #Getting Write Path
-    sensorFinisher(dateTime,sensorName,sensorDictionary)
-
-def LIBRADWrite(sensorData,dateTime):
-    dataOut    = sensorData.split(':')
-    sensorName = "LIBRAD"
-    dataLength = 3
-    if(len(dataOut) ==(dataLength +1)):
-        sensorDictionary = OrderedDict([
-                ("dateTime"           ,str(dateTime)),
-        	    ("countPerMinute"     ,dataOut[0]),
-            	("radiationValue"     ,dataOut[1]),
-                ("timeSpent"          ,dataOut[2])
-        	     ])
-
+        #Getting Write Path
         sensorFinisher(dateTime,sensorName,sensorDictionary)
+
 
 
 def PPD42NSWrite(sensorData,dateTime):
