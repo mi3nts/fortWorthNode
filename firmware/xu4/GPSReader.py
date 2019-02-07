@@ -6,7 +6,7 @@ from mintsXU4 import mintsDefinitions as mD
 import time
 import serial
 import pynmea2
-
+from collections import OrderedDict
 
 
 dataFolder = mD.dataFolder

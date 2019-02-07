@@ -41,7 +41,7 @@ def sensorFinisher(dateTime,sensorName,sensorDictionary):
     writeCSV2(writePath,sensorDictionary,exists)
     if(not(gisNode)):
        mL.writeHDF5Latest(writePath,sensorDictionary,sensorName)
-   
+
     print("-----------------------------------")
     print(sensorName)
     print(sensorDictionary)
@@ -68,7 +68,7 @@ def sensorSend(sensorID,sensorData,dateTime):
     if(sensorID=="HTU21D"):
         HTU21DWrite(sensorData,dateTime)
     if(sensorID=="BMP280"):
-        BMP280Write(sensorData,dateTime) 
+        BMP280Write(sensorData,dateTime)
     if(sensorID=="INA219"):
         INA219Write(sensorData,dateTime)
     if(sensorID=="OPCN3"):
@@ -77,6 +77,7 @@ def sensorSend(sensorID,sensorData,dateTime):
         LIBRADWrite(sensorData,dateTime)
     if(sensorID=="PPD42NS"):
         PPD42NSWrite(sensorData,dateTime)
+
 
 def BME280Write(sensorData,dateTime):
     dataOut    = sensorData.split(':')
@@ -91,7 +92,7 @@ def BME280Write(sensorData,dateTime):
             	("altitude"     ,dataOut[3])
                 ])
     sensorFinisher(dateTime,sensorName,sensorDictionary)
-    
+
 def HTU21DWrite(sensorData,dateTime):
     dataOut    = sensorData.split(':')
     sensorName = "HTU21D"
@@ -297,6 +298,13 @@ def writeCSV2(writePath,sensorDictionary,exists):
 #         dd.io.save(dataFolder+sensorName+".h5", sensorDictionary)
 #     except:
 #         print("Data Conflict!")
+
+def getWritePathSnaps(labelIn,dateTime):
+    #Example  : MINTS_0061_OOPCN3_2019_01_04.csv
+    writePath = dataFolder+"/"+macAddress+"/"+str(dateTime.year).zfill(4)  + "/" + str(dateTime.month).zfill(2)+ "/"+str(dateTime.day).zfill(2)+"/snaps/MINTS_"+ macAddress+ "_" +labelIn + "_" + str(dateTime.year).zfill(4) + "_" +str(dateTime.month).zfill(2) + "_" +str(dateTime.day).zfill(2) + "_" +str(dateTime.hour).zfill(2) + "_" +str(dateTime.minute).zfill(2)+ "_" +str(dateTime.second).zfill(2) +".png"
+    return writePath;
+
+
 
 def getWritePath(labelIn,dateTime):
     #Example  : MINTS_0061_OOPCN3_2019_01_04.csv
