@@ -9,8 +9,8 @@
 #include "Seeed_BME280.h"
 #include <Adafruit_INA219.h>
 #include "OPCN3Mints.h"
-
-
+#include "MutichannelGasSensor.h"
+#include "SparkFun_SCD30_Arduino_Library.h"
 #include "jobsMints.h"
 
 
@@ -34,9 +34,17 @@ extern Adafruit_BMP280 bmp;
 bool initializeBMP280Mints();
 void readBMP280Mints();
 
-extern BME280 bme280; 
+extern BME280 bme280;
 bool initializeBME280Mints();
 void readBME280Mints();
+
+bool initializeMGS001Mints();
+void readMGS001Mints();
+
+extern SCD30 scd;
+bool initializeSCD30Mints();
+void readSCD30Mints();
+
 
 extern OPCN3Mints opc;
 bool initializeOPCN3Mints();

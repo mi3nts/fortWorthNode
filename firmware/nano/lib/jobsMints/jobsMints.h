@@ -6,7 +6,7 @@
 
 
 void initializeSerialMints();
-void initializeSerialUSBMints();
+// void initializeSerialUSBMints();
 void sensorPrintMints(String sensor,String readings[],uint8_t numOfvals);
 // extern bool stringComplete;
 // extern String inputString;
