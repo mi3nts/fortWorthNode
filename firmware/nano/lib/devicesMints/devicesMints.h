@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 // #include <Time.h>
-// #include "Adafruit_Sensor.h"
+#include "Adafruit_Sensor.h"
 #include "Adafruit_VEML6070.h"
 #include "Adafruit_TSL2591.h"
 
