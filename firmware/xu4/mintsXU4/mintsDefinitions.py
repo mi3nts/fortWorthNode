@@ -10,6 +10,15 @@ def findPort(find):
             return(currentPort.split(" ")[0])
 
 
+def findDuePort(find):
+    ports = list(serial.tools.list_ports.comports())
+    for p in ports:
+        currentPort = str(p[2])
+        if(currentPort.find("PID=03EB")>=0):
+            return(p[0])
+        
+        
+      
 dataFolder            = "/home/teamlary/mintsData"
 duePort               = findPort("Arduino Due")
 nanoPort              = findPort("FT232R USB UART")
