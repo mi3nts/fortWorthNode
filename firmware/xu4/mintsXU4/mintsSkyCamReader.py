@@ -219,16 +219,41 @@ def getSnapShot(folderIn):
 
 def getSnapShotXU4(folderIn):
 
-    camera = cv2.VideoCapture(0)
-    # now = datetime.datetime.now(timezone.utc)
-    return_value, image = camera.read()
-    # imageName =  folderIn+ 'MintsSky-' +getDateTimeString(now)+'.png'
-    # imageName = "lk.png"
-    print(folderIn)
-    directoryCheck(folderIn)
-    cv2.imwrite(folderIn, image)
-    del(camera)
-    return image,folderIn;
+    connected, index = getVideoPortIndex(folderIn)
+
+    if(connected):
+        camera = cv2.VideoCapture(index)
+        # now = datetime.datetime.now(timezone.utc)
+        return_value, image = camera.read()
+
+        # imageName =  folderIn+ 'MintsSky-' +getDateTimeString(now)+'.png'
+        # imageName = "lk.png"
+        print(folderIn)
+        directoryCheck(folderIn)
+        cv2.imwrite(folderIn, image)
+        del(camera)
+        return image,folderIn;
+    else:
+        print("No Camera Connected - Program Halted")
+
+
+
+def getVideoPortIndex(folderIn):
+
+    index = 0
+    while True:
+        cap = cv2.VideoCapture(index)
+        if cap.read()[0]:
+            cap.release()
+            return True, index ;
+        else:
+            index += 1
+            if index ==20:
+                cap.release()
+                return False, index;
+
+
+
 
 
 
