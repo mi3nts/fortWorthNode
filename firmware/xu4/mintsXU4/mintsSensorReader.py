@@ -39,6 +39,7 @@ def sensorFinisher(dateTime,sensorName,sensorDictionary):
     writePath = getWritePath(sensorName,dateTime)
     exists = directoryCheck(writePath)
     writeCSV2(writePath,sensorDictionary,exists)
+    print(writePath)
     if(not(latestOff)):
        mL.writeHDF5Latest(writePath,sensorDictionary,sensorName)
 
