@@ -15,8 +15,8 @@ duePort               = findPort("Arduino Due")
 nanoPort              = findPort("FT232R USB UART")
 show2Port             = findPort("CP2104 USB to UART Bridge Controller")
 
-macAddress          = get_mac_address(interface="docker0").replace(":","")  #LAB Machine
+# macAddress          = get_mac_address(interface="docker0").replace(":","")  #LAB Machine
 # macAddress          = get_mac_address(interface="enp1s0").replace(":","")
-# macAddress            = get_mac_address(interface="eth0").replace(":","") # XU4
+macAddress            = get_mac_address(interface="eth0").replace(":","") # XU4
 latestOff             = True
 gpsPort               = findPort("GPS/GNSS Receiver")
