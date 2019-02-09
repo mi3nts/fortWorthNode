@@ -37,7 +37,6 @@ def main():
         sensorDictionary  = mSCR.getResultsXU4(currentImage,binaryImage,predictionBinary,prediction,imagePath,dateTimeNow)
         mSR.sensorFinisher(dateTimeNow,sensorName,sensorDictionary)
         mSCR.timeTaken("Preiction time is ",start)
-        break
     except:
         print("TRY AGAIN")
         
