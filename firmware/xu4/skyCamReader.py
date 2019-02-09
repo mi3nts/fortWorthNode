@@ -38,7 +38,7 @@ def main():
         mSR.sensorFinisher(dateTimeNow,sensorName,sensorDictionary)
         mSCR.timeTaken("Preiction time is ",start)
         break
-        except ValueError:
+        except:
             print("TRY AGAIN")
         
         
