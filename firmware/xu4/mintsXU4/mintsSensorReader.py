@@ -392,7 +392,7 @@ def writeCSV2(writePath,sensorDictionary,exists):
 
 def getWritePathIP(labelIn,dateTime):
     #Example  : MINTS_0061.csv
-    writePath = dataFolder+"/"+macAddress+"/"+"MINTS_"+ macAddress+ ".csv"
+    writePath = dataFolder+"/"+macAddress+"/"+"MINTS_"+ macAddress+ "_IP.csv"
     return writePath;
 
 
