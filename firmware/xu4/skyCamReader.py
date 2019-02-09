@@ -25,21 +25,17 @@ def main():
     onboardCapture = True
     try:
         currentImage,imagePath =  mSCR.getSnapShotXU4(subFolder)
-     	start = time.time()
-    	modelName = 'naiveBayesModel.sav'
+        start = time.time()
+        modelName = 'naiveBayesModel.sav'
    	    oneDImage, imageShape = mSCR.generateFeatures(currentImage,imagePath)
-   	    print("Loading Classifier")
-
+        print("Loading Classifier")
         loadedModel = pickle.load(open(modelName, 'rb'))
         print("Done Loading")
-
         predictionBinary,prediction = mSCR.getPredictionMatrix(loadedModel,oneDImage)
-
         print("Writing Resulting Images ...")
         binaryImage = mSCR.writeBinaryImageXU4(predictionBinary,imageShape,imagePath,onboardCapture)
         sensorDictionary  = mSCR.getResultsXU4(currentImage,binaryImage,predictionBinary,prediction,imagePath,dateTimeNow)
         mSR.sensorFinisher(dateTimeNow,sensorName,sensorDictionary)
-
         mSCR.timeTaken("Preiction time is ",start)
         break
         except ValueError:
