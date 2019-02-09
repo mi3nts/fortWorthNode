@@ -24,11 +24,9 @@ def main():
 
     onboardCapture = True
     try:
-   	    currentImage,imagePath =  mSCR.getSnapShotXU4(subFolder)
-
-    	start = time.time()
+        currentImage,imagePath =  mSCR.getSnapShotXU4(subFolder)
+     	start = time.time()
     	modelName = 'naiveBayesModel.sav'
-
    	    oneDImage, imageShape = mSCR.generateFeatures(currentImage,imagePath)
    	    print("Loading Classifier")
 
