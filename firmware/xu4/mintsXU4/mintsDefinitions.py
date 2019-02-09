@@ -14,7 +14,7 @@ def findDuePort():
     ports = list(serial.tools.list_ports.comports())
     for p in ports:
         currentPort = str(p[2])
-        if(currentPort.find("PID=0403")>=0):
+        if(currentPort.find("PID=2341")>=0):
             return(p[0])
         
         
