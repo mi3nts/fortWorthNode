@@ -6,6 +6,8 @@ sleep 5
 python3 nanoReader.py &
 sleep 5
 python3 GPSReader.py &
+sleep 5
+python3 ipReader.py &
 
 
 # python3 centralNodeReaderNano.py &

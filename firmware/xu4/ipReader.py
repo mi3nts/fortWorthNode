@@ -19,7 +19,7 @@ def main():
     sensorName = "IP"
     dateTimeNow = datetime.datetime.now()
 
-    ip = ni.ifaddresses('docker0')[ni.AF_INET][0]['addr']
+    ip = ni.ifaddresses('eth0')[ni.AF_INET][0]['addr']
 
     sensorDictionary =  OrderedDict([
             ("dateTime"     , str(dateTimeNow)),
