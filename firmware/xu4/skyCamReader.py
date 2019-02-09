@@ -38,8 +38,8 @@ def main():
         mSR.sensorFinisher(dateTimeNow,sensorName,sensorDictionary)
         mSCR.timeTaken("Preiction time is ",start)
         break
-        except:
-            print("TRY AGAIN")
+    except:
+        print("TRY AGAIN")
         
         
 if __name__ == "__main__":
