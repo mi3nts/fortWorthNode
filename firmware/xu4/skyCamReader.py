@@ -27,7 +27,7 @@ def main():
         currentImage,imagePath =  mSCR.getSnapShotXU4(subFolder)
         start = time.time()
         modelName = 'naiveBayesModel.sav'
-   	    oneDImage, imageShape = mSCR.generateFeatures(currentImage,imagePath)
+        oneDImage, imageShape = mSCR.generateFeatures(currentImage,imagePath)
         print("Loading Classifier")
         loadedModel = pickle.load(open(modelName, 'rb'))
         print("Done Loading")
