@@ -1,4 +1,4 @@
-# GIS Node
+# FortWorth Node
 
 ## Introduction 
 The current repo introduces a device which is inteneded to be portable particulate matter sensor. The device and its software  is meant to be designed, implemented and deployed in an expeditive manner. As such, most aspects of both the hardware and  the software is kept simple and is easilly expandable to make way for more sensors to be added. The production is a miniature version of [MINTS Central Node](https://github.com/mi3nts/centralNode).
