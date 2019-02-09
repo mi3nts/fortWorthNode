@@ -21,26 +21,28 @@ def main():
     dateTimeNow = datetime.datetime.now()
     subFolder     = mSR.getWritePathSnaps(sensorName,dateTimeNow)
 
+
     onboardCapture = True
-    currentImage,imagePath =  mSCR.getSnapShotXU4(subFolder)
+    try:
+   	 currentImage,imagePath =  mSCR.getSnapShotXU4(subFolder)
 
-    start = time.time()
-    modelName = 'naiveBayesModel.sav'
+    	start = time.time()
+    	modelName = 'naiveBayesModel.sav'
 
-    oneDImage, imageShape = mSCR.generateFeatures(currentImage,imagePath)
-    print("Loading Classifier")
+   	oneDImage, imageShape = mSCR.generateFeatures(currentImage,imagePath)
+   	print("Loading Classifier")
 
-    loadedModel = pickle.load(open(modelName, 'rb'))
-    print("Done Loading")
+        loadedModel = pickle.load(open(modelName, 'rb'))
+        print("Done Loading")
 
-    predictionBinary,prediction = mSCR.getPredictionMatrix(loadedModel,oneDImage)
+        predictionBinary,prediction = mSCR.getPredictionMatrix(loadedModel,oneDImage)
 
-    print("Writing Resulting Images ...")
-    binaryImage = mSCR.writeBinaryImageXU4(predictionBinary,imageShape,imagePath,onboardCapture)
-    sensorDictionary  = mSCR.getResultsXU4(currentImage,binaryImage,predictionBinary,prediction,imagePath,dateTimeNow)
-    mSR.sensorFinisher(dateTimeNow,sensorName,sensorDictionary)
+        print("Writing Resulting Images ...")
+        binaryImage = mSCR.writeBinaryImageXU4(predictionBinary,imageShape,imagePath,onboardCapture)
+        sensorDictionary  = mSCR.getResultsXU4(currentImage,binaryImage,predictionBinary,prediction,imagePath,dateTimeNow)
+        mSR.sensorFinisher(dateTimeNow,sensorName,sensorDictionary)
 
-    mSCR.timeTaken("Preiction time is ",start)
+        mSCR.timeTaken("Preiction time is ",start)
 
 if __name__ == "__main__":
    main()
