@@ -38,4 +38,4 @@ binaryImage = mSCR.writeBinaryImageXU4(predictionBinary,imageShape,imagePath,onb
 sensorDictionary  = mSCR.getResultsXU4(currentImage,binaryImage,predictionBinary,prediction,imagePath,dateTimeNow)
 mSR.sensorFinisher(dateTimeNow,sensorName,sensorDictionary)
 
-mSCR.timeTaken("Preiction time is ",start
+mSCR.timeTaken("Preiction time is ",start)
