@@ -11,12 +11,12 @@ void initializeSerialUSBMints(){
 }
 
 void sensorPrintMints(String sensor,String readings[],uint8_t numOfvals){
-    SerialUSB.print("#mintsO!"+sensor+">");
+    Serial.print("#mintsO!"+sensor+">");
     for (int i = 0; i < numOfvals; ++i)
       {
-        SerialUSB.print(readings[i]+":");
+        Serial.print(readings[i]+":");
       }
-      SerialUSB.print("~");
+      Serial.print("~");
 }
 
 

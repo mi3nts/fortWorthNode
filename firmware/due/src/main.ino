@@ -49,7 +49,7 @@ OPCN3Mints opc = OPCN3Mints(CS);
 
 //
 
-uint16_t sensingPeriod = 2120;
+uint16_t sensingPeriod = 2175;
 
 uint16_t initPeriod = 1500;
 // String inputString = "";         // a String to hold incoming data

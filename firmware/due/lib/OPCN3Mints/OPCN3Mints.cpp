@@ -30,7 +30,7 @@
  void OPCN3Mints::begin()
 {
     printMintsBegin();
-    Serial.println("Initiating SPI ");
+    SerialUSB.println("Initiating SPI ");
     SPI.begin(alphaSlavePin);
     SPI.setBitOrder(MSBFIRST);
     delay(1000);
@@ -39,7 +39,7 @@
     SPI.setDataMode(alphaSlavePin, 0);
     SPI.setClockDivider(alphaSlavePin,168);
     delay(400);
-    Serial.println("---------------------------- ");
+    SerialUSB.println("---------------------------- ");
     printMintsEnd();
 
 }
@@ -80,7 +80,7 @@ bool OPCN3Mints::initialize(){
   struct fanDigitalPotShutdownState OPCN3Mints::setFanDigitalPotShutdownState(bool status) {
 
         printMintsBegin();
-        Serial.println("Setting Fan Digital Pot Shutdown State");
+        SerialUSB.println("Setting Fan Digital Pot Shutdown State");
         int  size = 1;
         byte validator[2] = {0X31,0XF3};
         byte dataIn[size];
@@ -88,7 +88,7 @@ bool OPCN3Mints::initialize(){
         byte inputByte  =  0X03;;
 
         if(status){
-            Serial.println("Turning Fan On");
+            SerialUSB.println("Turning Fan On");
             beginTransfer();
             initial[0] = SPI.transfer(alphaSlavePin,inputByte);
             delay(10);
@@ -98,7 +98,7 @@ bool OPCN3Mints::initialize(){
             endTransfer();
         }else{
 
-          Serial.println("Turning Fan Off");
+          SerialUSB.println("Turning Fan Off");
           beginTransfer();
           initial[0] = SPI.transfer(alphaSlavePin,inputByte);
           delay(10);
@@ -120,9 +120,9 @@ bool OPCN3Mints::initialize(){
 
 
 
-     Serial.print("Validity: ");
-     Serial.println(dataOutput.valid);
-     Serial.print(dataOutput.fanOn);    Serial.print(" ");
+     SerialUSB.print("Validity: ");
+     SerialUSB.println(dataOutput.valid);
+     SerialUSB.print(dataOutput.fanOn);    SerialUSB.print(" ");
      printMintsEnd();
 
        return dataOutput;
@@ -132,7 +132,7 @@ bool OPCN3Mints::initialize(){
     struct laserDigitalPotShutdownState OPCN3Mints::setLaserDigitalPotShutdownState(bool status) {
 
           printMintsBegin();
-          Serial.println("Setting Laser Digital Pot Shutdown State");
+          SerialUSB.println("Setting Laser Digital Pot Shutdown State");
           int  size = 1;
           byte validator[2] = {0X31,0XF3};
           byte dataIn[size];
@@ -140,7 +140,7 @@ bool OPCN3Mints::initialize(){
           byte inputByte  =  0X03;;
 
           if(status){
-             Serial.println("Turning Laser On");
+             SerialUSB.println("Turning Laser On");
              beginTransfer();
              initial[0] = SPI.transfer(alphaSlavePin,inputByte);
              delay(10);
@@ -149,7 +149,7 @@ bool OPCN3Mints::initialize(){
              dataIn[0] = SPI.transfer(alphaSlavePin,0X05);
              endTransfer();
           }else{
-            Serial.println("Turning Laser Off");
+            SerialUSB.println("Turning Laser Off");
             beginTransfer();
             initial[0] = SPI.transfer(alphaSlavePin,inputByte);
             delay(10);
@@ -166,9 +166,9 @@ bool OPCN3Mints::initialize(){
          dataOutput.valid          = comparator(validator, initial,2);
          dataOutput.laserOn        = status;
 
-       Serial.print("Validity: ");
-       Serial.println(dataOutput.valid);
-       Serial.print(dataOutput.laserOn);    Serial.print(" ");
+       SerialUSB.print("Validity: ");
+       SerialUSB.println(dataOutput.valid);
+       SerialUSB.print(dataOutput.laserOn);    SerialUSB.print(" ");
        printMintsEnd();
 
          return dataOutput;
@@ -179,7 +179,7 @@ bool OPCN3Mints::initialize(){
       struct highLowGainState OPCN3Mints::setHighLowGainState(bool status) {
 
             printMintsBegin();
-            Serial.println("Setting Gain State");
+            SerialUSB.println("Setting Gain State");
             int  size = 1;
             byte validator[2] = {0X31,0XF3};
             byte dataIn[size];
@@ -187,7 +187,7 @@ bool OPCN3Mints::initialize(){
             byte inputByte  =  0X03;;
 
             if(status){
-               Serial.println("Setting a High Gain");
+               SerialUSB.println("Setting a High Gain");
                beginTransfer();
                initial[0] = SPI.transfer(alphaSlavePin,inputByte);
                delay(10);
@@ -196,7 +196,7 @@ bool OPCN3Mints::initialize(){
                dataIn[0] = SPI.transfer(alphaSlavePin,0X07);
                endTransfer();
             }else{
-              Serial.println("Setting a Low Gain");
+              SerialUSB.println("Setting a Low Gain");
               beginTransfer();
               initial[0] = SPI.transfer(alphaSlavePin,inputByte);
               delay(10);
@@ -213,9 +213,9 @@ bool OPCN3Mints::initialize(){
            dataOutput.valid          = comparator(validator, initial,2);
            dataOutput.highLow           = status;
 
-         Serial.print("Validity: ");
-         Serial.println(dataOutput.valid);
-         Serial.print(dataOutput.highLow);    Serial.print(" ");
+         SerialUSB.print("Validity: ");
+         SerialUSB.println(dataOutput.valid);
+         SerialUSB.print(dataOutput.highLow);    SerialUSB.print(" ");
          printMintsEnd();
 
         return  dataOutput;
@@ -224,7 +224,7 @@ bool OPCN3Mints::initialize(){
 
 struct DACandPowerStatus OPCN3Mints::readDACandPowerStatus() {
 printMintsBegin();
-      Serial.println("Reading DAC and Power Status");
+      SerialUSB.println("Reading DAC and Power Status");
       int  size = 6;
       byte inputByte =  0X13;
       byte validator[2] = {0X31,0XF3};
@@ -250,14 +250,14 @@ printMintsBegin();
    memcpy(&dataOutput, &dataIn, sizeof(dataOutput));
    dataOutput.valid  = comparator(validator, initial,2);
 
-   Serial.print("Validity: ");
-   Serial.println(dataOutput.valid);
-   Serial.print(dataOutput.fanOn);    Serial.print(" ");
-   Serial.print(dataOutput.laserDACOn);  Serial.print(" ");
-   Serial.print(dataOutput.fanDACVal );  Serial.print(" ");
-   Serial.print(dataOutput.laserDACVal);  Serial.print(" ");
-   Serial.print(dataOutput.laserSwitch );  Serial.print(" ");
-   Serial.print(dataOutput.gainAndAutoGainToggleSetting);  Serial.print(" ");
+   SerialUSB.print("Validity: ");
+   SerialUSB.println(dataOutput.valid);
+   SerialUSB.print(dataOutput.fanOn);    SerialUSB.print(" ");
+   SerialUSB.print(dataOutput.laserDACOn);  SerialUSB.print(" ");
+   SerialUSB.print(dataOutput.fanDACVal );  SerialUSB.print(" ");
+   SerialUSB.print(dataOutput.laserDACVal);  SerialUSB.print(" ");
+   SerialUSB.print(dataOutput.laserSwitch );  SerialUSB.print(" ");
+   SerialUSB.print(dataOutput.gainAndAutoGainToggleSetting);  SerialUSB.print(" ");
    printMintsEnd();
 
      return dataOutput;
@@ -266,7 +266,7 @@ printMintsBegin();
 
 struct informationString OPCN3Mints::readInformationString() {
 printMintsBegin();
-        Serial.println("Reading Information String");
+        SerialUSB.println("Reading Information String");
         int  size = 60;
         byte inputByte =  0X3F;
         byte validator[2] = {0X31,0XF3};
@@ -294,9 +294,9 @@ printMintsBegin();
      dataOutput.valid        = comparator(validator, initial,2);
      dataOutput.information  = info;
 
-     Serial.print("Validity: ");
-     Serial.print(dataOutput.valid)      ;   Serial.println(" ");
-     Serial.print(dataOutput.information);   Serial.print(" ");
+     SerialUSB.print("Validity: ");
+     SerialUSB.print(dataOutput.valid)      ;   SerialUSB.println(" ");
+     SerialUSB.print(dataOutput.information);   SerialUSB.print(" ");
      printMintsEnd();
 
     return dataOutput;
@@ -305,7 +305,7 @@ printMintsBegin();
 
 struct serialNumber OPCN3Mints::readSerialNumber() {
 printMintsBegin();
-            Serial.println("Reading Serial Number");
+            SerialUSB.println("Reading Serial Number");
             int  size = 60;
             byte inputByte =  0X10;
             byte validator[2] = {0X31,0XF3};
@@ -334,9 +334,9 @@ printMintsBegin();
            dataOutput.serial  = info;
           //
 
-         Serial.print("Validity: ");
-         Serial.print(dataOutput.valid) ;  Serial.println(" ");
-         Serial.print(dataOutput.serial);  Serial.print(" ");
+         SerialUSB.print("Validity: ");
+         SerialUSB.print(dataOutput.valid) ;  SerialUSB.println(" ");
+         SerialUSB.print(dataOutput.serial);  SerialUSB.print(" ");
          printMintsEnd();
 
 return dataOutput;
@@ -348,7 +348,7 @@ return dataOutput;
 
 struct firmwareVersion OPCN3Mints::readFirmwareVersion() {
 printMintsBegin();
-            Serial.println("Reading Firmaware Version");
+            SerialUSB.println("Reading Firmaware Version");
             int  size = 2;
             byte inputByte =  0X12;
             byte validator[2] = {0X31,0XF3};
@@ -374,10 +374,10 @@ printMintsBegin();
             memcpy(&dataOutput, &dataIn, sizeof(dataOutput));
             dataOutput.valid  = comparator(validator, initial,2);
 
-         Serial.print("Validity: ");
-         Serial.print(dataOutput.valid)  ; Serial.println(" ");
-         Serial.print(dataOutput.major);   Serial.print(" ");
-         Serial.print(dataOutput.minor);   Serial.print(" ");
+         SerialUSB.print("Validity: ");
+         SerialUSB.print(dataOutput.valid)  ; SerialUSB.println(" ");
+         SerialUSB.print(dataOutput.major);   SerialUSB.print(" ");
+         SerialUSB.print(dataOutput.minor);   SerialUSB.print(" ");
          printMintsEnd();
 
 return  dataOutput;
@@ -388,7 +388,7 @@ return  dataOutput;
 
 struct configurationVariables OPCN3Mints::readConfigurationVariables() {
 printMintsBegin();
-  Serial.println("Reading Configuration Variables");
+  SerialUSB.println("Reading Configuration Variables");
   int  size = 163;
   byte inputByte =  0X3C;
   byte validator[2] = {0X31,0XF3};
@@ -413,102 +413,102 @@ printMintsBegin();
  memcpy(&dataOutput, &dataIn, sizeof(dataOutput));
  dataOutput.valid  = comparator(validator, initial,2);
 
- Serial.print("Validity: ");
- Serial.println(dataOutput.valid);
- Serial.println("Bin Boundries ADC");
- Serial.print(dataOutput.binBoundriesADC0);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC1);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC2);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC3);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC4);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC5);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC6);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC7);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC8);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC9);Serial.println(" ");
- Serial.print(dataOutput.binBoundriesADC10);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC11);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC12);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC13);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC14);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC15);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC16);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC17);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC18);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC19);Serial.println(" ");
- Serial.print(dataOutput.binBoundriesADC20);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC21);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC22);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC23);Serial.print(" ");
- Serial.print(dataOutput.binBoundriesADC24);Serial.println(" ");
+ SerialUSB.print("Validity: ");
+ SerialUSB.println(dataOutput.valid);
+ SerialUSB.println("Bin Boundries ADC");
+ SerialUSB.print(dataOutput.binBoundriesADC0);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC1);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC2);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC3);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC4);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC5);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC6);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC7);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC8);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC9);SerialUSB.println(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC10);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC11);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC12);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC13);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC14);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC15);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC16);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC17);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC18);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC19);SerialUSB.println(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC20);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC21);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC22);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC23);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binBoundriesADC24);SerialUSB.println(" ");
 
-Serial.println("-------------------------------------------------");
-Serial.println("Bin Boundries Diametors");
-       Serial.print(dataOutput.binBoundriesDiametor0);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor1);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor2);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor3);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor4);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor5);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor6);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor7);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor8);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor9);Serial.println(" ");
-       Serial.print(dataOutput.binBoundriesDiametor10);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor11);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor12);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor13);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor14);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor15);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor16);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor17);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor18);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor19);Serial.println(" ");
-       Serial.print(dataOutput.binBoundriesDiametor20);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor21);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor22);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor23);Serial.print(" ");
-       Serial.print(dataOutput.binBoundriesDiametor24);Serial.println(" ");
+SerialUSB.println("-------------------------------------------------");
+SerialUSB.println("Bin Boundries Diametors");
+       SerialUSB.print(dataOutput.binBoundriesDiametor0);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor1);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor2);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor3);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor4);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor5);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor6);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor7);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor8);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor9);SerialUSB.println(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor10);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor11);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor12);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor13);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor14);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor15);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor16);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor17);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor18);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor19);SerialUSB.println(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor20);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor21);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor22);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor23);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binBoundriesDiametor24);SerialUSB.println(" ");
 
-Serial.println("-------------------------------------------------");
-Serial.println("Bin Weights");
-       Serial.print(dataOutput.binWeightings0);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings1);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings2);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings3);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings4);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings5);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings6);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings7);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings8);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings9);Serial.println(" ");
-       Serial.print(dataOutput.binWeightings10);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings11);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings12);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings13);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings14);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings15);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings16);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings17);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings18);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings19);Serial.println(" ");
-       Serial.print(dataOutput.binWeightings20);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings21);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings22);Serial.print(" ");
-       Serial.print(dataOutput.binWeightings23);Serial.println(" ");
-Serial.println("-------------------------------------------------");
-Serial.println("PM Diametors");
-       Serial.print(dataOutput.pmDiametorA);Serial.print(" ");
-       Serial.print(dataOutput.pmDiametorB);Serial.print(" ");
-       Serial.print(dataOutput.pmDiametorC);Serial.println(" ");
-Serial.println("-------------------------------------------------");
-Serial.println("PM MSLNS");
-       Serial.print(dataOutput.maximumTimeOfFlight);Serial.print(" ");
-       Serial.print(dataOutput.AMSamplingIntervalCount);Serial.print(" ");
-       Serial.print(dataOutput.AMIdleIntervalCount);Serial.print(" ");
-       Serial.print(dataOutput.AMMaxDataArraysInFile);Serial.print(" ");
-       Serial.print(dataOutput.AMOnlySavePMData);Serial.print(" ");
-       Serial.print(dataOutput.AMFanOnInIdle);Serial.print(" ");
+SerialUSB.println("-------------------------------------------------");
+SerialUSB.println("Bin Weights");
+       SerialUSB.print(dataOutput.binWeightings0);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings1);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings2);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings3);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings4);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings5);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings6);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings7);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings8);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings9);SerialUSB.println(" ");
+       SerialUSB.print(dataOutput.binWeightings10);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings11);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings12);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings13);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings14);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings15);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings16);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings17);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings18);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings19);SerialUSB.println(" ");
+       SerialUSB.print(dataOutput.binWeightings20);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings21);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings22);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.binWeightings23);SerialUSB.println(" ");
+SerialUSB.println("-------------------------------------------------");
+SerialUSB.println("PM Diametors");
+       SerialUSB.print(dataOutput.pmDiametorA);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.pmDiametorB);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.pmDiametorC);SerialUSB.println(" ");
+SerialUSB.println("-------------------------------------------------");
+SerialUSB.println("PM MSLNS");
+       SerialUSB.print(dataOutput.maximumTimeOfFlight);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.AMSamplingIntervalCount);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.AMIdleIntervalCount);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.AMMaxDataArraysInFile);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.AMOnlySavePMData);SerialUSB.print(" ");
+       SerialUSB.print(dataOutput.AMFanOnInIdle);SerialUSB.print(" ");
 
 printMintsEnd();
 
@@ -519,7 +519,7 @@ return  dataOutput;
 
 struct histogramData OPCN3Mints::readHistogramData() {
   printMintsBegin();
-  Serial.println("Reading Histogram Data ");
+  SerialUSB.println("Reading Histogram Data ");
   int  size = 86;
   byte inputByte =  0X30;
   byte validator[2] = {0X31,0XF3};
@@ -544,74 +544,74 @@ struct histogramData OPCN3Mints::readHistogramData() {
  memcpy(&dataOutput, &dataIn, sizeof(dataOutput));
  dataOutput.valid  = comparator(validator, initial,2);
 
- Serial.print("Validity: ");
- Serial.println(dataOutput.valid);
- Serial.println("Bin Counts");
- Serial.print(dataOutput.binCount0);Serial.print(" ");
- Serial.print(dataOutput.binCount1);Serial.print(" ");
- Serial.print(dataOutput.binCount2);Serial.print(" ");
- Serial.print(dataOutput.binCount3);Serial.print(" ");
- Serial.print(dataOutput.binCount4);Serial.print(" ");
- Serial.print(dataOutput.binCount5);Serial.print(" ");
- Serial.print(dataOutput.binCount6);Serial.print(" ");
- Serial.print(dataOutput.binCount7);Serial.print(" ");
- Serial.print(dataOutput.binCount8);Serial.print(" ");
- Serial.print(dataOutput.binCount9);Serial.println(" ");
- Serial.print(dataOutput.binCount10);Serial.print(" ");
- Serial.print(dataOutput.binCount11);Serial.print(" ");
- Serial.print(dataOutput.binCount12);Serial.print(" ");
- Serial.print(dataOutput.binCount13);Serial.print(" ");
- Serial.print(dataOutput.binCount14);Serial.print(" ");
- Serial.print(dataOutput.binCount15);Serial.print(" ");
- Serial.print(dataOutput.binCount16);Serial.print(" ");
- Serial.print(dataOutput.binCount17);Serial.print(" ");
- Serial.print(dataOutput.binCount18);Serial.print(" ");
- Serial.print(dataOutput.binCount19);Serial.println(" ");
- Serial.print(dataOutput.binCount20);Serial.print(" ");
- Serial.print(dataOutput.binCount21);Serial.print(" ");
- Serial.print(dataOutput.binCount22);Serial.print(" ");
- Serial.print(dataOutput.binCount23);Serial.println(" ");
+ SerialUSB.print("Validity: ");
+ SerialUSB.println(dataOutput.valid);
+ SerialUSB.println("Bin Counts");
+ SerialUSB.print(dataOutput.binCount0);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount1);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount2);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount3);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount4);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount5);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount6);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount7);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount8);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount9);SerialUSB.println(" ");
+ SerialUSB.print(dataOutput.binCount10);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount11);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount12);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount13);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount14);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount15);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount16);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount17);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount18);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount19);SerialUSB.println(" ");
+ SerialUSB.print(dataOutput.binCount20);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount21);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount22);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.binCount23);SerialUSB.println(" ");
 
- Serial.println("-------------------------------------------------");
- Serial.println("Time To Cross");
- Serial.print(dataOutput.bin1TimeToCross);Serial.print(" ");
- Serial.print(dataOutput.bin3TimeToCross);Serial.print(" ");
- Serial.print(dataOutput.bin5TimeToCross);Serial.print(" ");
- Serial.print(dataOutput.bin7TimeToCross);Serial.println(" ");
+ SerialUSB.println("-------------------------------------------------");
+ SerialUSB.println("Time To Cross");
+ SerialUSB.print(dataOutput.bin1TimeToCross);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.bin3TimeToCross);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.bin5TimeToCross);SerialUSB.print(" ");
+ SerialUSB.print(dataOutput.bin7TimeToCross);SerialUSB.println(" ");
 
- Serial.println("-------------------------------------------------");
- Serial.println("Sampling Period");
- Serial.println(dataOutput.samplingPeriod);
- Serial.println("-------------------------------------------------");
- Serial.println("Sample Flow Rate");
- Serial.println(dataOutput.sampleFlowRate);
- Serial.println("-------------------------------------------------");
- Serial.println("Temperature");
- Serial.println(dataOutput.temperature );
- Serial.println("-------------------------------------------------");
- Serial.println("Humidity");
- Serial.println(dataOutput.humidity );
- Serial.println("-------------------------------------------------");
- Serial.println("pm1");
- Serial.println(dataOutput.pm1);
- Serial.println("-------------------------------------------------");
- Serial.println("pm2.5");
- Serial.println(dataOutput.pm2_5);
- Serial.println("-------------------------------------------------");
- Serial.println("pm10");
- Serial.println(dataOutput.pm10);
- Serial.println("-------------------------------------------------");
+ SerialUSB.println("-------------------------------------------------");
+ SerialUSB.println("Sampling Period");
+ SerialUSB.println(dataOutput.samplingPeriod);
+ SerialUSB.println("-------------------------------------------------");
+ SerialUSB.println("Sample Flow Rate");
+ SerialUSB.println(dataOutput.sampleFlowRate);
+ SerialUSB.println("-------------------------------------------------");
+ SerialUSB.println("Temperature");
+ SerialUSB.println(dataOutput.temperature );
+ SerialUSB.println("-------------------------------------------------");
+ SerialUSB.println("Humidity");
+ SerialUSB.println(dataOutput.humidity );
+ SerialUSB.println("-------------------------------------------------");
+ SerialUSB.println("pm1");
+ SerialUSB.println(dataOutput.pm1);
+ SerialUSB.println("-------------------------------------------------");
+ SerialUSB.println("pm2.5");
+ SerialUSB.println(dataOutput.pm2_5);
+ SerialUSB.println("-------------------------------------------------");
+ SerialUSB.println("pm10");
+ SerialUSB.println(dataOutput.pm10);
+ SerialUSB.println("-------------------------------------------------");
 
- Serial.println("-------------------------------------------------");
- Serial.println("MSLNS");
+ SerialUSB.println("-------------------------------------------------");
+ SerialUSB.println("MSLNS");
 
-  Serial.print(dataOutput.rejectCountGlitch);Serial.print(" ");
-  Serial.print(dataOutput.rejectCountLongTOF);Serial.print(" ");
-  Serial.print(dataOutput.rejectCountRatio);Serial.print(" ");
-  Serial.print(dataOutput.rejectCountOutOfRange);Serial.print(" ");
-  Serial.print(dataOutput.fanRevCount);Serial.print(" ");
-  Serial.print(dataOutput.laserStatus);Serial.print(" ");
-  Serial.print(dataOutput.checkSum);Serial.print(" ");
+  SerialUSB.print(dataOutput.rejectCountGlitch);SerialUSB.print(" ");
+  SerialUSB.print(dataOutput.rejectCountLongTOF);SerialUSB.print(" ");
+  SerialUSB.print(dataOutput.rejectCountRatio);SerialUSB.print(" ");
+  SerialUSB.print(dataOutput.rejectCountOutOfRange);SerialUSB.print(" ");
+  SerialUSB.print(dataOutput.fanRevCount);SerialUSB.print(" ");
+  SerialUSB.print(dataOutput.laserStatus);SerialUSB.print(" ");
+  SerialUSB.print(dataOutput.checkSum);SerialUSB.print(" ");
 
 printMintsEnd();
 
@@ -622,7 +622,7 @@ return  dataOutput;
 
 struct pmData OPCN3Mints::readPMData() {
   printMintsBegin();
-  Serial.println("Reading Histogram Data ");
+  SerialUSB.println("Reading Histogram Data ");
   int  size = 14;
   byte inputByte =  0X32;
   byte validator[2] = {0X31,0XF3};
@@ -646,20 +646,20 @@ struct pmData OPCN3Mints::readPMData() {
   memcpy(&dataOutput, &dataIn, sizeof(dataOutput));
   dataOutput.valid  = comparator(validator, initial,2);
 
- Serial.print("Validity: ");
- Serial.println(dataOutput.valid);
- Serial.println("-------------------------------------------------");
- Serial.println("pm1");
- Serial.println(dataOutput.pm1);
- Serial.println("-------------------------------------------------");
- Serial.println("pm2.5");
- Serial.println(dataOutput.pm2_5);
- Serial.println("-------------------------------------------------");
- Serial.println("pm10");
- Serial.println(dataOutput.pm10);
- Serial.println("-------------------------------------------------");
- Serial.println("CheckSum");
- Serial.print(dataOutput.checkSum);Serial.print(" ");
+ SerialUSB.print("Validity: ");
+ SerialUSB.println(dataOutput.valid);
+ SerialUSB.println("-------------------------------------------------");
+ SerialUSB.println("pm1");
+ SerialUSB.println(dataOutput.pm1);
+ SerialUSB.println("-------------------------------------------------");
+ SerialUSB.println("pm2.5");
+ SerialUSB.println(dataOutput.pm2_5);
+ SerialUSB.println("-------------------------------------------------");
+ SerialUSB.println("pm10");
+ SerialUSB.println(dataOutput.pm10);
+ SerialUSB.println("-------------------------------------------------");
+ SerialUSB.println("CheckSum");
+ SerialUSB.print(dataOutput.checkSum);SerialUSB.print(" ");
 
 printMintsEnd();
 
@@ -670,7 +670,7 @@ return  dataOutput;
 bool OPCN3Mints::resetHistogram() {
 
   printMintsBegin();
-  Serial.println("Resetting Histogram");
+  SerialUSB.println("Resetting Histogram");
   int  size = 14;
   byte inputByte =  0X32;
   byte validator[2] = {0X31,0XF3};
@@ -726,41 +726,41 @@ delay(1);
 
 void OPCN3Mints::printBytesRead(byte initial[], byte dataIn[], int sizeOfArray)
 {
-    Serial.println("--------------------------------");
-    Serial.println("Printing Initial Bytes----------");
-    Serial.print(initial[0],HEX);
-    Serial.print(" ");
-    Serial.print(initial[1],HEX);
-    Serial.println("");
-    Serial.println("--------------------------------");
-    Serial.println("Printing Byte Array-------------");
+    SerialUSB.println("--------------------------------");
+    SerialUSB.println("Printing Initial Bytes----------");
+    SerialUSB.print(initial[0],HEX);
+    SerialUSB.print(" ");
+    SerialUSB.print(initial[1],HEX);
+    SerialUSB.println("");
+    SerialUSB.println("--------------------------------");
+    SerialUSB.println("Printing Byte Array-------------");
 
     for (int i = 0 ; i<sizeOfArray; i++)
         {
-            Serial.print(dataIn[i],HEX);
-            Serial.print(" ");
+            SerialUSB.print(dataIn[i],HEX);
+            SerialUSB.print(" ");
             if(i%10==9)
               {
-              Serial.println("");
+              SerialUSB.println("");
               }
         }
 
-  Serial.println("");
-  Serial.println("--------------------------------");
+  SerialUSB.println("");
+  SerialUSB.println("--------------------------------");
 }
 
 
 
 void OPCN3Mints::printMintsBegin(){
-  Serial.println("");
-  Serial.println("--------------------------------");
-  Serial.println("-------------MINTS--------------");
+  SerialUSB.println("");
+  SerialUSB.println("--------------------------------");
+  SerialUSB.println("-------------MINTS--------------");
 
 }
 
 
   void OPCN3Mints::printMintsEnd(){
-    Serial.println("");
-    Serial.println("-------------MINTS--------------");
-    Serial.println("--------------------------------");
+    SerialUSB.println("");
+    SerialUSB.println("-------------MINTS--------------");
+    SerialUSB.println("--------------------------------");
 }

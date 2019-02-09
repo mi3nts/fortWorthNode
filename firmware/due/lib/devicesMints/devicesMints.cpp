@@ -5,11 +5,11 @@
 // HTU21D ---------------------------------------
 bool initializeHTU21DMints(){
   if (htu.begin()) {
-    Serial.println("HTU21D Initiated");
+    SerialUSB.println("HTU21D Initiated");
     delay(1);
     return true;
   }else{
-    Serial.println("HTU21D not found");
+    SerialUSB.println("HTU21D not found");
     delay(1);
     return false;
   }
@@ -31,7 +31,7 @@ void readHTU21DMints(){
 bool initializeBMP280Mints(){
 
   if (bmp.begin()) {
-    Serial.println("BMP280 Initiated");
+    SerialUSB.println("BMP280 Initiated");
     delay(1);
   return true;
     /* Default settings from datasheet. */
@@ -40,7 +40,7 @@ bool initializeBMP280Mints(){
 
 
   }else{
-    Serial.println("BMP280 not found");
+    SerialUSB.println("BMP280 not found");
     delay(1);
     return false;
   }
@@ -64,13 +64,13 @@ bool initializeBME280Mints(){
 
 
       if (bme280.init()) {
-        Serial.println("BME280 Initiated");
+        SerialUSB.println("BME280 Initiated");
         delay(1);
         return true;
       }
       else
       {
-      Serial.println("BME280 not found");
+      SerialUSB.println("BME280 not found");
       delay(1);
       return false;
       }
@@ -97,9 +97,9 @@ bool initializeMGS001Mints(){
 
   gas.begin(0x04);//the default I2C address of the slave is 0x04
   gas.powerOn();
-  Serial.println("MGS001 Initiated");
-  Serial.print("MGS001 Firmware Version = ");
-  Serial.println(gas.getVersion());
+  SerialUSB.println("MGS001 Initiated");
+  SerialUSB.print("MGS001 Firmware Version = ");
+  SerialUSB.println(gas.getVersion());
   delay(1);
 
 return true;
@@ -128,11 +128,11 @@ void readMGS001Mints(){
 // SCD30 ---------------------------------------
 bool initializeSCD30Mints(){
   if (scd.begin()) {
-    Serial.println("SCD30 Initiated");
+    SerialUSB.println("SCD30 Initiated");
     delay(1);
     return true;
   }else{
-    Serial.println("SCD30 not found");
+    SerialUSB.println("SCD30 not found");
     delay(1);
     return false;
   }
@@ -156,7 +156,7 @@ void readSCD30Mints(){
 
 bool initializeINA219Mints(){
     ina.begin();
-    Serial.println("INA219 Initiated");
+    SerialUSB.println("INA219 Initiated");
     delay(1);
     return true;
 }

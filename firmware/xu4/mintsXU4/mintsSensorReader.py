@@ -25,6 +25,7 @@ import time
 import serial
 import pynmea2
 from collections import OrderedDict
+import netifaces as ni
 
 
 macAddress    = mD.macAddress
@@ -47,6 +48,18 @@ def sensorFinisher(dateTime,sensorName,sensorDictionary):
     print(sensorName)
     print(sensorDictionary)
 
+def sensorFinisherIP(dateTime,sensorName,sensorDictionary):
+    #Getting Write Path
+    writePath = getWritePathIP(sensorName,dateTime)
+    exists = directoryCheck(writePath)
+    writeCSV2(writePath,sensorDictionary,exists)
+    print(writePath)
+    if(not(latestOff)):
+       mL.writeHDF5Latest(writePath,sensorDictionary,sensorName)
+
+    print("-----------------------------------")
+    print(sensorName)
+    print(sensorDictionary)
 
 def dataSplit(dataString,dateTime):
     dataOut   = dataString.split('!')
@@ -375,6 +388,13 @@ def writeCSV2(writePath,sensorDictionary,exists):
 #         dd.io.save(dataFolder+sensorName+".h5", sensorDictionary)
 #     except:
 #         print("Data Conflict!")
+
+
+def getWritePathIP(labelIn,dateTime):
+    #Example  : MINTS_0061.csv
+    writePath = dataFolder+"/"+macAddress+"/"+"MINTS_"+ macAddress+ ".csv"
+    return writePath;
+
 
 def getWritePathSnaps(labelIn,dateTime):
     #Example  : MINTS_0061_OOPCN3_2019_01_04.csv
