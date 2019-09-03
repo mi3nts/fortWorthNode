@@ -13,12 +13,29 @@ from mintsXU4 import mintsDefinitions  as mD
 dataFolder = mD.dataFolder
 
 
+
+def findLocalIP():
+    try:
+        localIp = ni.ifaddresses('eth0')[ni.AF_INET][0]['addr'] # XU4
+        return localIp
+    except:
+        print("Not The XU4")
+
+    try:
+        localIp  = ni.ifaddresses('docker0')[ni.AF_INET][0]['addr'] # Lab Machine
+        return localIp
+    except:
+        print("Not The PC")
+    return "xxxxxxxx"
+
+
+
 def main():
 
     sensorName = "IP"
-    dateTimeNow = datetime.datetime.now()   
+    dateTimeNow = datetime.datetime.now()
     publicIp = get('https://api.ipify.org').text
-    localIp = ni.ifaddresses('eth0')[ni.AF_INET][0]['addr'] # Odroid XU4 
+    localIp = findLocalIP()
 
 
 

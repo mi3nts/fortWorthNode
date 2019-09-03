@@ -1,4 +1,3 @@
-
 import serial
 import datetime
 from mintsXU4 import mintsSensorReader as mSR
@@ -36,21 +35,23 @@ def main():
     #this will store the line
     line = []
     while True:
-
-        for c in ser.read():
-            line.append(chr(c))
-            if chr(c) == '\n':
-                dataString     = (''.join(line))
-                dateTime  = datetime.datetime.now()
-                if (dataString.startswith("$GPGGA") and mSR.getDeltaTime(lastGPGGA,delta)):
-                    mSR.GPSGPGGAWrite(dataString,dateTime)
-                    lastGPGGA = time.time()
-                if (dataString.startswith("$GPRMC") and mSR.getDeltaTime(lastGPGGA,delta)):
-                    mSR.GPSGPRMCWrite(dataString,dateTime)
-                    lastGPRMC = time.time()
-                    # # mSR.dataSplit(dataStringPost,datetime.datetime.now())
-                line = []
-                break
+       try:
+           for c in ser.read():
+               line.append(chr(c))
+               if chr(c) == '\n':
+                   dataString     = (''.join(line))
+                   dateTime  = datetime.datetime.now()
+                   if (dataString.startswith("$GPGGA") and mSR.getDeltaTime(lastGPGGA,delta)):
+                       mSR.GPSGPGGA2Write(dataString,dateTime)
+                       lastGPGGA = time.time()
+                   if (dataString.startswith("$GPRMC") and mSR.getDeltaTime(lastGPGGA,delta)):
+                       mSR.GPSGPRMC2Write(dataString,dateTime)
+                       lastGPRMC = time.time()
+                   line = []
+                   break
+       except:
+           print("Incomplete String Read")
+           line = []
 
     ser.close()
 

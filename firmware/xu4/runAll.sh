@@ -1,9 +1,9 @@
 #!/bin/bash
 #
 sleep 60
-python3 dueReader.py &
+python3 nanoReader0.py &
 sleep 5
-python3 nanoReader.py &
+python3 nanoReader1.py &
 sleep 5
 python3 GPSReader.py &
 sleep 5
