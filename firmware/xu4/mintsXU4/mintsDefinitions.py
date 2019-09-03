@@ -19,7 +19,7 @@ def findDuePort():
         
         
       
-dataFolder            = "/home/teamlary/mintsData"
+dataFolder            = "/home/teamlary/mintsData/raw"
 duePort               = findDuePort()
 nanoPort              = findPort("FT232R USB UART")
 show2Port             = findPort("CP2104 USB to UART Bridge Controller")

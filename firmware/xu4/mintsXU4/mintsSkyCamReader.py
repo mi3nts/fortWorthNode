@@ -37,8 +37,119 @@ from collections import OrderedDict
 #     # wks.append_row(resultsOut)
 #
 #
-#     ## Now the Focus will be to get back the Predicted Binary Image
-#     timeTaken("Preiction time is ",start)
+#     ## Now the Focus will
+
+
+def getResultsXU4002(originalImage,binaryImage,predictionBinary,prediction,imagePath,dateTime):
+
+    onlyCloud          = getCloudOnlyImage(originalImage,binaryImage)
+    onlySky            = getSkyOnlyImage(originalImage,binaryImage)
+
+    cloudPercentage    = (sum(predictionBinary)/len(predictionBinary))*100
+
+    percentageAccuracy = sum(abs(prediction-.5)*200)/len(prediction)
+    #
+    colorSumBlueAll    = originalImage[:,:,0].sum()
+    colorSumGreenAll   = originalImage[:,:,1].sum()
+    colorSumRedAll     = originalImage[:,:,2].sum()
+
+    dimSize = np.shape(originalImage)
+
+    numOfPixels        = dimSize[0]*dimSize[1]
+
+    averageBlueAll     = colorSumBlueAll/numOfPixels
+    averageGreenAll    = colorSumGreenAll/numOfPixels
+    averageRedAll      = colorSumRedAll/numOfPixels
+
+    colorSumBlueSky    = onlySky[:,:,0].sum()
+    colorSumGreenSky   = onlySky[:,:,1].sum()
+    colorSumRedSky     = onlySky[:,:,2].sum()
+    #
+    colorSumBlueCloud  = onlyCloud[:,:,0].sum()
+    colorSumGreenCloud = onlyCloud[:,:,1].sum()
+    colorSumRedCloud   = onlyCloud[:,:,2].sum()
+    #
+    cloudPixelCount  = np.sum(binaryImage[:,:,0] == 255)
+    skyPixelCount    = np.sum(binaryImage[:,:,0] == 0)
+
+
+    if cloudPercentage !=100:
+        averageBlueSky  = colorSumBlueSky/skyPixelCount
+        averageGreenSky = colorSumGreenSky/skyPixelCount
+        averageRedSky   = colorSumRedSky/skyPixelCount
+    else:
+        averageBlueSky  = -1  # Denoting 0% of Sky
+        averageGreenSky = -1  # Denoting 0% of Sky
+        averageRedSky   = -1  # Denoting 0% of Sky
+
+# Printing the Average Pixel values for each Color
+
+    if  cloudPercentage !=0:
+        averageBlueCloud  = colorSumBlueCloud/cloudPixelCount
+        averageGreenCloud = colorSumGreenCloud/cloudPixelCount
+        averageRedCloud   = colorSumRedCloud/cloudPixelCount
+    else:
+        averageBlueCloud  = -1 # Denoting 0% of Sky
+        averageGreenCloud = -1 # Denoting 0% of Sky
+        averageRedCloud   = -1 # Denoting 0% of Sky
+
+    cloudPercentage =str(float(cloudPercentage))
+    print("------------------------------")
+    # print("Predictionn Accuracy :  "+str(percentageAccuracy)+"%")
+    print("------------------------------")
+    print("Cloud Pecentage      :  "+cloudPercentage+"%")
+    print('-----------------------------------')
+    print('All Red              : ',averageRedAll)
+    print('All Green            : ',averageGreenAll)
+    print('All Blue             : ',averageBlueAll)
+    print('-----------------------------------')
+    print('Sky Red              : ',averageRedSky)
+    print('Sky Green            : ',averageGreenSky)
+    print('Sky Blue             : ',averageBlueSky)
+    print('-----------------------------------')
+    print('Cloud Red            : ',averageRedCloud)
+    print('Cloud Green          : ',averageGreenCloud)
+    print('Cloud Blue           : ',averageBlueCloud)
+    print('-----------------------------------')
+    print('Done.')
+
+
+    sensorDictionary = OrderedDict([
+            ("dateTime"             ,str(dateTime)),
+            ("cloudPecentage"       ,cloudPercentage),
+            ("allRed"               ,averageRedAll),
+            ("allGreen"             ,averageGreenAll),
+            ("allBlue"              ,averageBlueAll),
+            ("skyRed"               ,averageRedSky),
+            ("skyGreen"             ,averageGreenSky),
+            ("skyBlue"              ,averageBlueSky),
+            ("cloudRed"             ,averageRedCloud),
+            ("cloudGreen"           ,averageGreenCloud),
+            ("cloudBlue"            ,averageBlueCloud),
+         ])
+
+    return sensorDictionary
+
+def writeBinaryImageXU4NoSave(Pixel_Row ,Image_Shape,PathIn,onboardCapture):
+    # Designed to return a binary image and write the said image to a given path
+    Image_Reshaped = []
+    Pixel_Row_255 = Pixel_Row.astype(float)*255
+    Pixel_Row_Transpose = np.transpose(Pixel_Row_255)
+    Image_Reshaped_Pre = np.asarray(Pixel_Row_Transpose.reshape((Image_Shape[0], Image_Shape[1])))
+    Image_Reshaped     = np.zeros((Image_Shape[0], Image_Shape[1], 3))
+
+    Image_Reshaped[:, :, 0] = Image_Reshaped_Pre
+    Image_Reshaped[:, :, 1] = Image_Reshaped_Pre
+    Image_Reshaped[:, :, 2] = Image_Reshaped_Pre
+
+    os.remove(PathIn)
+
+    # binaryImagePath = PathIn.replace("SKYCAM", "SKYCAM_binary")
+    # directoryCheck(binaryImagePath)
+    # cv2.imwrite(binaryImagePath, Image_Reshaped)
+
+    return Image_Reshaped
+
 
 def getResults(originalImage,binaryImage,predictionBinary,prediction,imagePath):
 
